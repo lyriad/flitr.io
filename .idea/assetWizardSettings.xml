@@ -19,8 +19,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\ManuelEduardo\Desktop\sign_in.png" />
-                                      <entry key="outputName" value="sign_in_icon" />
+                                      <entry key="imageAsset" value="C:\Users\ManuelEduardo\Desktop\icons8-settings-512-white.png" />
+                                      <entry key="outputName" value="settings_icon_white" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -48,7 +49,7 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="000000" />
-                                      <entry key="foregroundImage" value="C:\Users\ManuelEduardo\Desktop\logo.png" />
+                                      <entry key="foregroundImage" value="C:\Users\ManuelEduardo\Desktop" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="outputName" value="app_logo" />
                                       <entry key="webIconShape" value="NONE" />
@@ -57,6 +58,11 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
