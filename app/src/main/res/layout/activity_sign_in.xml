@@ -23,7 +23,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-
             <TextView
                 android:id="@+id/ann_name"
                 android:layout_width="290dp"
@@ -107,7 +106,6 @@
                 android:textColor="@android:color/white"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
-
 
     <Button
         android:id="@+id/sign_in_button"
