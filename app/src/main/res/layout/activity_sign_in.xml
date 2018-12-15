@@ -109,10 +109,12 @@
 
     <Button
         android:id="@+id/sign_in_button"
-        android:layout_width="96dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Sign In"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="64dp"
         app:layout_constraintBottom_toTopOf="@id/sign_in_create_account"
         app:layout_constraintLeft_toLeftOf="@+id/main_layout"
         app:layout_constraintRight_toRightOf="@+id/main_layout"
@@ -128,6 +130,8 @@
         android:text="Don't have an account? Sign up"
         android:textColor="@android:color/white"
         android:layout_marginTop="160dp"
+        android:paddingVertical="6dp"
+        android:paddingHorizontal="24dp"
         app:layout_constraintBottom_toBottomOf="@id/main_layout"
         app:layout_constraintLeft_toLeftOf="@+id/main_layout"
         app:layout_constraintRight_toRightOf="@+id/main_layout"

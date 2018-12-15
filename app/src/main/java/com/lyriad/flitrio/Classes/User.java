@@ -6,6 +6,7 @@ public class User extends Person {
 
     private String username;
     private String password;
+    private String email;
     private LocalDate registerDate;
     private LocalDate lastAccess;
     private Subscription subscription;
@@ -13,11 +14,12 @@ public class User extends Person {
 
     public User(String givenName, String middleName, String lastName, LocalDate birthDate,
                 String countryOfOrigin, char gender, String username, String password,
-                LocalDate registerDate, LocalDate lastAccess){
+                String email, LocalDate registerDate, LocalDate lastAccess){
 
         super(givenName, middleName, lastName, birthDate, countryOfOrigin, gender);
         this.username = username;
         this.password = password;
+        this.email = email;
         this.registerDate = registerDate;
         this.lastAccess = lastAccess;
     }
@@ -36,6 +38,14 @@ public class User extends Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public LocalDate getRegisterDate() {
