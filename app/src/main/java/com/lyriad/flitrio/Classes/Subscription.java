@@ -5,13 +5,14 @@ public class Subscription {
     private long id;
     private String title;
     private String resolution;
-    private int simultaneousDevices;
+    private int simultaneousDevices, price; //price in USD
 
-    public Subscription(String title, String resolution, int simultaneousDevices){
+    public Subscription(String title, String resolution, int simultaneousDevices, int price){
         super();
         this.title = title;
         this.resolution = resolution;
         this.simultaneousDevices = simultaneousDevices;
+        this.price = price;
     }
 
     public long getId() {
@@ -44,5 +45,13 @@ public class Subscription {
 
     public void setSimultaneousDevices(int simultaneousDevices) {
         this.simultaneousDevices = simultaneousDevices;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

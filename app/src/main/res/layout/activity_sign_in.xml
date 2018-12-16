@@ -21,14 +21,15 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="10">
 
             <TextView
-                android:id="@+id/ann_name"
-                android:layout_width="290dp"
+                android:id="@+id/app_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="flitr.io"
+                android:layout_weight="9"
+                android:text="@string/app_name"
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -37,6 +38,8 @@
                 android:id="@+id/settings_button"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/settings_icon_white"
                 app:layout_constraintLeft_toRightOf="@+id/toolbar_layout"/>
@@ -70,7 +73,7 @@
             android:id="@+id/sign_in_username_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@color/grey"
             android:textColor="@android:color/white"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp">
@@ -80,7 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
-                android:textColorHint="@android:color/white"
+                android:textColorHint="@color/grey"
+                android:backgroundTint="@color/white"
                 android:textColor="@android:color/white"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -90,7 +94,7 @@
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@android:color/white"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@color/grey"
             android:textColor="@android:color/white"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="24dp"
@@ -102,7 +106,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:textColorHint="@android:color/white"
+                android:textColorHint="@color/grey"
+                android:backgroundTint="@color/white"
                 android:textColor="@android:color/white"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

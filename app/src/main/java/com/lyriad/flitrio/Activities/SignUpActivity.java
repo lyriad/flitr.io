@@ -1,6 +1,7 @@
 package com.lyriad.flitrio.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -117,8 +118,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.sign_up_subscription_help:
-                Toast.makeText(this, "Open Subscriptions Activity",
-                        Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SignUpActivity.this,
+                        SubscriptionActivity.class));
                 break;
 
             case R.id.sign_up_button:

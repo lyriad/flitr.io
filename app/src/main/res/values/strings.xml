@@ -1,3 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">flitr.io</string>
+
+    <string name="subscription_description">
+        Flitr.io offers three streaming plans to meet your needs. The plan you choose will
+        determine the number of devices you can stream Netflix on at the same time. No matter
+        which plan you choose, you can install the Netflix app on as many devices as you want,
+        and enjoy as many TV shows and movies as you want, anytime, anywhere.
+    </string>
+
+    <string name="basic_plan">
+        Our basic plan lets you stream TV shows and movies from Netflix on one device at a
+        time in standard definition (SD). This plan also lets you download titles to one phone
+        or tablet.
+    </string>
+
+    <string name="standard_plan">
+        Our standard plan lets you stream TV shows and movies from Netflix on two devices at
+        the same time and in high definition (HD) when available. This plan also lets you download
+        titles to two phones or tablets.
+    </string>
+
+    <string name="premium_plan">
+        Our premium plan lets you stream TV shows and movies from Netflix on four devices at the
+        same time and in high definition (HD) and ultra high definition (UHD) when available. This
+        plan also lets you download titles to four phones or tablets.
+    </string>
 </resources>
