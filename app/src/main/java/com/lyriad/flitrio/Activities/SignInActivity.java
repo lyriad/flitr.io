@@ -22,6 +22,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sign_in);
         buttonSignIn = findViewById(R.id.sign_in_button);
         textUsername = findViewById(R.id.sign_in_username);

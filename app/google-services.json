@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "204197988523",
+    "firebase_url": "https://flitrio.firebaseio.com",
+    "project_id": "flitrio",
+    "storage_bucket": "flitrio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204197988523:android:3b859cc645842a28",
+        "android_client_info": {
+          "package_name": "com.lyriad.flitrio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "204197988523-nuojn63ga2bsqtj0qq7gc7mmjgjgjro3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lyriad.flitrio",
+            "certificate_hash": "4bba320222b80ddeee4342291f81ceb8be07f1a8"
+          }
+        },
+        {
+          "client_id": "204197988523-pq5spjqoilrg9tl2p18n7m2jba2bjvku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrppTQriECwmfCls_P21ImD-RSSSTbDOk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204197988523-pq5spjqoilrg9tl2p18n7m2jba2bjvku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

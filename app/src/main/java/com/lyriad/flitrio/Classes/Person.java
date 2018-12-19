@@ -8,13 +8,13 @@ public class Person {
     private String givenName;
     private String middleName;
     private String lastName;
-    private LocalDate birthDate;
+    private String birthDate;
     private String countryOfOrigin;
-    private char gender;
+    private String gender;
     private byte[] personImage;
 
-    public Person(String givenName, String middleName, String lastName, LocalDate birthDate,
-                  String countryOfOrigin, char gender){
+    public Person(String givenName, String middleName, String lastName, String birthDate,
+                  String countryOfOrigin, String gender){
         super();
         this.givenName = givenName;
         this.middleName = middleName;
@@ -56,11 +56,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -72,11 +72,11 @@ public class Person {
         this.countryOfOrigin = countryOfOrigin;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

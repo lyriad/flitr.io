@@ -1,20 +1,20 @@
 package com.lyriad.flitrio.Classes;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class User extends Person {
 
     private String username;
     private String password;
     private String email;
-    private LocalDate registerDate;
-    private LocalDate lastAccess;
-    private Subscription subscription;
+    private Date registerDate;
+    private Date lastAccess;
+    private String subscription;
     private boolean admin;
 
-    public User(String givenName, String middleName, String lastName, LocalDate birthDate,
-                String countryOfOrigin, char gender, String username, String password,
-                String email, LocalDate registerDate, LocalDate lastAccess){
+    public User(String givenName, String middleName, String lastName, String birthDate,
+                String countryOfOrigin, String gender, String username, String password,
+                String email, Date registerDate, Date lastAccess){
 
         super(givenName, middleName, lastName, birthDate, countryOfOrigin, gender);
         this.username = username;
@@ -48,27 +48,27 @@ public class User extends Person {
         this.email = email;
     }
 
-    public LocalDate getRegisterDate() {
+    public Date getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(LocalDate registerDate) {
+    public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
 
-    public LocalDate getLastAccess() {
+    public Date getLastAccess() {
         return lastAccess;
     }
 
-    public void setLastAccess(LocalDate lastAccess) {
+    public void setLastAccess(Date lastAccess) {
         this.lastAccess = lastAccess;
     }
 
-    public Subscription getSubscription() {
+    public String getSubscription() {
         return subscription;
     }
 
-    public void setSubscription(Subscription subscription) {
+    public void setSubscription(String subscription) {
         this.subscription = subscription;
     }
 
