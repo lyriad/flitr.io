@@ -12,6 +12,10 @@ public class User extends Person {
     private String subscription;
     private boolean admin;
 
+    public User(){
+        super();
+    }
+
     public User(String givenName, String middleName, String lastName, String birthDate,
                 String countryOfOrigin, String gender, String username, String password,
                 String email, Date registerDate, Date lastAccess){

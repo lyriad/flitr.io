@@ -2,11 +2,13 @@ package com.lyriad.flitrio.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -16,17 +18,27 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.google.firebase.storage.UploadTask;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.lyriad.flitrio.Classes.StaticData;
 import com.lyriad.flitrio.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -36,13 +48,17 @@ import java.util.Map;
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseFirestore fireDatabase;
+    private FirebaseAuth fireAuthentication;
+    private StorageReference storageRef;
+    private Uri imageUri;
 
     EditText dateText;
     TextInputEditText textGivenName, textMiddleName, textLastName, textEmail,
-            textUsername, textPassword;
-    ImageView dateButton, subscriptionHelp, backButton, profilePicture;
+            textUsername, textPassword, textConfirmPassword;
+    ImageView dateButton, subscriptionHelp, backButton;
+    CircularImageView profilePicture;
     Spinner countrySpinner, subscriptionSpinner;
-    Button signUpButton, selectPictureButton;
+    Button signUpButton;
     RadioButton male, female;
     RadioGroup genderGroup;
     ArrayAdapter<String> countryAdapter, subscriptionAdapter;
@@ -54,10 +70,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_up);
 
         fireDatabase = FirebaseFirestore.getInstance();
+        fireAuthentication = FirebaseAuth.getInstance();
+        storageRef = FirebaseStorage.getInstance().getReference();
+        imageUri = null;
 
         backButton = findViewById(R.id.sign_up_back_button);
         profilePicture = findViewById(R.id.sign_up_profile_picture);
-        selectPictureButton = findViewById(R.id.sign_up_profile_picture_button);
         textGivenName = findViewById(R.id.sign_up_given_name);
         textMiddleName = findViewById(R.id.sign_up_middle_name);
         textLastName = findViewById(R.id.sign_up_last_name);
@@ -72,6 +90,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         subscriptionSpinner = findViewById(R.id.sign_up_subscription);
         subscriptionHelp = findViewById(R.id.sign_up_subscription_help);
         textPassword = findViewById(R.id.sign_up_password);
+        textConfirmPassword = findViewById(R.id.sign_up_confirm_password);
         signUpButton = findViewById(R.id.sign_up_button);
 
         countryAdapter = new ArrayAdapter<>(this,
@@ -83,13 +102,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         subscriptionSpinner.setAdapter(subscriptionAdapter);
 
         backButton.setOnClickListener(this);
-        selectPictureButton.setOnClickListener(this);
+        profilePicture.setOnClickListener(this);
         dateButton.setOnClickListener(this);
         subscriptionHelp.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -97,9 +115,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
                 break;
 
-            case R.id.sign_up_profile_picture_button:
-                Toast.makeText(this, "Select profile picture",
-                        Toast.LENGTH_SHORT).show();
+            case R.id.sign_up_profile_picture:
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(1, 1)
+                        .start(this);
                 break;
 
             case R.id.sign_up_date_button:
@@ -132,58 +152,102 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.sign_up_button:
-                registerUser();
-                finish();
+                if (registerUser()){
+                    finish();
+                }
                 break;
         }
     }
 
-    private void registerUser(){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE &&
+                resultCode == RESULT_OK && data != null){
+
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                imageUri = result.getUri();
+                profilePicture.setImageURI(imageUri);
+
+        }
+    }
+
+    private boolean registerUser(){
         if (emptyField()){
-            return;
+            return false;
         }
 
-        DocumentReference reference = fireDatabase.collection("User")
-                .document();
-        String gender = "";
-        if (male.isChecked()){
-            gender = "Male";
-        }else if(female.isChecked()){
-            gender = "Female";
-        }
+        fireAuthentication.createUserWithEmailAndPassword(textEmail.getText().toString().trim(),
+                textPassword.getText().toString()).
+                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    final StorageReference filePath = storageRef
+                            .child(StaticData.getProfilePictureFolder())
+                            .child(textUsername.getText().toString() + ".jpg");
 
-        Map<String, Object> newUser = new HashMap<>();
-        try {
-            newUser.put("Given Name", textGivenName.getText().toString().trim());
-            newUser.put("Middle Name", textMiddleName.getText().toString().trim());
-            newUser.put("Last Name", textLastName.getText().toString().trim());
-            newUser.put("Birthdate", dateText.getText().toString().trim());
-            newUser.put("Country of Origin", countrySpinner.getSelectedItem().toString());
-            newUser.put("Gender", gender);
-            newUser.put("Username", textUsername.getText().toString().trim());
-            newUser.put("Password", textPassword.getText().toString());
-            newUser.put("Email", textEmail.getText().toString().trim());
-            newUser.put("Register date", new Date());
-            newUser.put("Last Access date", new Date());
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
 
-        fireDatabase.collection(StaticData.getUserCollection()).document(reference.getId())
-                .set(newUser).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(SignUpActivity.this, "Signed Up successfully",
+                    filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    DocumentReference reference = fireDatabase
+                                            .collection(StaticData.getUserCollection()).document();
+                                    Map<String, Object> newUser = new HashMap<>();
+
+                                    String imageUrl = uri.toString();
+
+                                    String gender = "";
+                                    if (male.isChecked()) gender = "Male";
+                                    if(female.isChecked()) gender = "Female";
+
+                                    try {
+                                        newUser.put("Profile picture", imageUrl);
+                                        newUser.put("Given Name", textGivenName.getText().toString().trim());
+                                        newUser.put("Middle Name", textMiddleName.getText().toString().trim());
+                                        newUser.put("Last Name", textLastName.getText().toString().trim());
+                                        newUser.put("Birthdate", dateText.getText().toString().trim());
+                                        newUser.put("Country of Origin",
+                                                countrySpinner.getSelectedItem().toString());
+                                        newUser.put("Gender", gender);
+                                        newUser.put("Username", textUsername.getText().toString().trim());
+                                        newUser.put("Email", textEmail.getText().toString().trim());
+                                        newUser.put("Register date", new Date());
+                                        newUser.put("Last Access date", new Date());
+                                    }catch (NullPointerException e){
+                                        e.printStackTrace();
+                                    }
+
+                                    fireDatabase.collection(StaticData.getUserCollection())
+                                            .document(reference.getId()).set(newUser)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.getException() != null){
+                                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                }
+                            });
+                        }
+                    });
+                }else{
+                    if (task.getException() != null){
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Failed to register user",
                                 Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SignUpActivity.this, "Sign Up failed",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
+            }
+        });
+        return true;
     }
 
     private boolean emptyField(){
@@ -191,19 +255,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         InputMethodManager keyboard = (InputMethodManager) getSystemService(SignUpActivity.this.
                 INPUT_METHOD_SERVICE);
 
-        if (textGivenName.getText().toString().isEmpty()){
+        if (textGivenName.getText().toString().trim().isEmpty()){
             Toast.makeText(SignUpActivity.this, "Please enter your name",
                     Toast.LENGTH_SHORT).show();
             textGivenName.requestFocus();
             keyboard.showSoftInput(textGivenName, InputMethodManager.SHOW_IMPLICIT);
             return true;
-        }else if(textLastName.getText().toString().isEmpty()){
+        }else if(textLastName.getText().toString().trim().isEmpty()){
             Toast.makeText(SignUpActivity.this, "Please enter you last name",
                     Toast.LENGTH_SHORT).show();
             textLastName.requestFocus();
             keyboard.showSoftInput(textLastName, InputMethodManager.SHOW_IMPLICIT);
             return true;
-        }else if (textUsername.getText().toString().isEmpty()){
+        }else if (textUsername.getText().toString().trim().isEmpty()){
             Toast.makeText(SignUpActivity.this, "Please enter a username",
                     Toast.LENGTH_SHORT).show();textUsername.requestFocus();
             keyboard.showSoftInput(textUsername, InputMethodManager.SHOW_IMPLICIT);
@@ -214,7 +278,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             textEmail.requestFocus();
             keyboard.showSoftInput(textEmail, InputMethodManager.SHOW_IMPLICIT);
             return true;
-        }else if (dateText.getText().toString().isEmpty()){
+        }else if (dateText.getText().toString().trim().isEmpty()){
             Toast.makeText(SignUpActivity.this, "Please enter your birth date",
                     Toast.LENGTH_SHORT).show();
             dateText.requestFocus();
@@ -236,6 +300,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.LENGTH_SHORT).show();
             textPassword.requestFocus();
             keyboard.showSoftInput(textPassword, InputMethodManager.SHOW_IMPLICIT);
+            return true;
+        }else if (textPassword.getText().toString().length() < 6){
+            Toast.makeText(SignUpActivity.this, "The password must be at least 6 characters long",
+                    Toast.LENGTH_SHORT).show();
+            textPassword.requestFocus();
+            keyboard.showSoftInput(textPassword, InputMethodManager.SHOW_IMPLICIT);
+        }else if(textConfirmPassword.getText().toString().isEmpty()){
+            Toast.makeText(SignUpActivity.this, "Please confirm your password",
+                    Toast.LENGTH_SHORT).show();
+            textConfirmPassword.requestFocus();
+            keyboard.showSoftInput(textConfirmPassword, InputMethodManager.SHOW_IMPLICIT);
+        }else if (!textPassword.getText().toString().
+                equals(textConfirmPassword.getText().toString())){
+            Toast.makeText(SignUpActivity.this, "Passwords do not match",
+                    Toast.LENGTH_SHORT).show();
+            textPassword.requestFocus();
             return true;
         }
         return false;

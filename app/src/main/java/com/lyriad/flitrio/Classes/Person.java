@@ -13,6 +13,10 @@ public class Person {
     private String gender;
     private byte[] personImage;
 
+    public Person(){
+        super();
+    }
+
     public Person(String givenName, String middleName, String lastName, String birthDate,
                   String countryOfOrigin, String gender){
         super();

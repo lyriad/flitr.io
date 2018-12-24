@@ -22,7 +22,7 @@
                                       <entry key="imageAsset" value="C:\Users\ManuelEduardo\Desktop\empty_profile_picture.png" />
                                       <entry key="outputName" value="empty_profile_picture" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="ffffff" />
+                                      <entry key="themeColor" value="7f7f7f" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -38,7 +38,8 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="50" />
+                                                <entry key="scalingPercent" value="0" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -49,7 +50,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="61" />
+                                                <entry key="scalingPercent" value="70" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -60,11 +61,39 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundColor" value="000000" />
-                                      <entry key="backgroundImage" value="C:\Users\ManuelEduardo\Desktop\empty_profile_picture.png" />
-                                      <entry key="foregroundImage" value="C:\Users\ManuelEduardo\Desktop\empty_profile_picture.png" />
+                                      <entry key="backgroundImage" value="C:\Users\ManuelEduardo\Desktop\change_picture.png" />
+                                      <entry key="foregroundImage" value="C:\Users\ManuelEduardo\Desktop\change_picture.png" />
+                                      <entry key="generateLegacyIcon" value="false" />
+                                      <entry key="generateRoundIcon" value="false" />
+                                      <entry key="generateWebIcon" value="false" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="empty_profile_picture" />
+                                      <entry key="outputName" value="change_picture" />
                                       <entry key="webIconShape" value="NONE" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                            <entry key="launcherLegacy">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\ManuelEduardo\Desktop\change_picture.png" />
+                                      <entry key="outputName" value="empty_profile_picture" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                            <entry key="notification">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\ManuelEduardo\Desktop\empty_profile_picture.png" />
                                     </map>
                                   </option>
                                 </PersistentState>

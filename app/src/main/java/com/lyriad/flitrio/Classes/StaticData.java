@@ -3,6 +3,8 @@ package com.lyriad.flitrio.Classes;
 public final class StaticData {
 
     private static final String userCollection = "User";
+    private static final String firebaseStorage = "gs://flitrio.appspot.com";
+    private static final String profilePictureFolder = "ProfilePicture";
 
     private static String subscriptions[] = {"<Select subscription plan>",
             "Basic plan", "Standard plan", "Premium plan"};
@@ -21,6 +23,14 @@ public final class StaticData {
 
     public static String getUserCollection() {
         return userCollection;
+    }
+
+    public static String getFirebaseStorage() {
+        return firebaseStorage;
+    }
+
+    public static String getProfilePictureFolder() {
+        return profilePictureFolder;
     }
 
     public static String[] getCountries() {
