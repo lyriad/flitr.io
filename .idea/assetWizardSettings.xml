@@ -61,13 +61,11 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundColor" value="000000" />
-                                      <entry key="backgroundImage" value="C:\Users\ManuelEduardo\Desktop\change_picture.png" />
-                                      <entry key="foregroundImage" value="C:\Users\ManuelEduardo\Desktop\change_picture.png" />
-                                      <entry key="generateLegacyIcon" value="false" />
-                                      <entry key="generateRoundIcon" value="false" />
+                                      <entry key="backgroundImage" value="C:\Users\ManuelEduardo\Desktop\empty_profile_picture.png" />
+                                      <entry key="foregroundImage" value="C:\Users\ManuelEduardo\Desktop\empty_profile_picture.png" />
                                       <entry key="generateWebIcon" value="false" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="change_picture" />
+                                      <entry key="outputName" value="empty_profile_picture" />
                                       <entry key="webIconShape" value="NONE" />
                                     </map>
                                   </option>

@@ -1,9 +1,12 @@
 package com.lyriad.flitrio.Activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,7 +28,6 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -184,58 +187,26 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    final StorageReference filePath = storageRef
-                            .child(StaticData.getProfilePictureFolder())
-                            .child(textUsername.getText().toString() + ".jpg");
+                    if (imageUri != null){
+                        String ext = imageUri.toString().substring(imageUri.toString().lastIndexOf('.'));
+                        StorageReference filePath = storageRef
+                                .child(StaticData.getProfilePictureFolder())
+                                .child(textUsername.getText().toString() + ext);
 
-
-                    filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    DocumentReference reference = fireDatabase
-                                            .collection(StaticData.getUserCollection()).document();
-                                    Map<String, Object> newUser = new HashMap<>();
-
-                                    String imageUrl = uri.toString();
-
-                                    String gender = "";
-                                    if (male.isChecked()) gender = "Male";
-                                    if(female.isChecked()) gender = "Female";
-
-                                    try {
-                                        newUser.put("Profile picture", imageUrl);
-                                        newUser.put("Given Name", textGivenName.getText().toString().trim());
-                                        newUser.put("Middle Name", textMiddleName.getText().toString().trim());
-                                        newUser.put("Last Name", textLastName.getText().toString().trim());
-                                        newUser.put("Birthdate", dateText.getText().toString().trim());
-                                        newUser.put("Country of Origin",
-                                                countrySpinner.getSelectedItem().toString());
-                                        newUser.put("Gender", gender);
-                                        newUser.put("Username", textUsername.getText().toString().trim());
-                                        newUser.put("Email", textEmail.getText().toString().trim());
-                                        newUser.put("Register date", new Date());
-                                        newUser.put("Last Access date", new Date());
-                                    }catch (NullPointerException e){
-                                        e.printStackTrace();
+                        filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        saveToDatabase(uri.toString());
                                     }
-
-                                    fireDatabase.collection(StaticData.getUserCollection())
-                                            .document(reference.getId()).set(newUser)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.getException() != null){
-                                                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
-                                }
-                            });
-                        }
-                    });
+                                });
+                            }
+                        });
+                    }else{
+                        saveToDatabase(StaticData.getEmptyPicture());
+                    }
                 }else{
                     if (task.getException() != null){
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(),
@@ -306,11 +277,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.LENGTH_SHORT).show();
             textPassword.requestFocus();
             keyboard.showSoftInput(textPassword, InputMethodManager.SHOW_IMPLICIT);
+            return true;
         }else if(textConfirmPassword.getText().toString().isEmpty()){
             Toast.makeText(SignUpActivity.this, "Please confirm your password",
                     Toast.LENGTH_SHORT).show();
             textConfirmPassword.requestFocus();
             keyboard.showSoftInput(textConfirmPassword, InputMethodManager.SHOW_IMPLICIT);
+            return true;
         }else if (!textPassword.getText().toString().
                 equals(textConfirmPassword.getText().toString())){
             Toast.makeText(SignUpActivity.this, "Passwords do not match",
@@ -319,5 +292,43 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return true;
         }
         return false;
+    }
+
+    private void saveToDatabase(String imageUrl){
+        DocumentReference reference = fireDatabase
+                .collection(StaticData.getUserCollection()).document();
+        Map<String, Object> newUser = new HashMap<>();
+
+        String gender = "";
+        if (male.isChecked()) gender = "Male";
+        if(female.isChecked()) gender = "Female";
+
+        try {
+            newUser.put("Profile picture", imageUrl);
+            newUser.put("Given Name", textGivenName.getText().toString().trim());
+            newUser.put("Middle Name", textMiddleName.getText().toString().trim());
+            newUser.put("Last Name", textLastName.getText().toString().trim());
+            newUser.put("Birthdate", dateText.getText().toString().trim());
+            newUser.put("Country of Origin",
+                    countrySpinner.getSelectedItem().toString());
+            newUser.put("Gender", gender);
+            newUser.put("Username", textUsername.getText().toString().trim());
+            newUser.put("Email", textEmail.getText().toString().trim());
+            newUser.put("Register date", new Date());
+            newUser.put("Last Access date", new Date());
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        fireDatabase.collection(StaticData.getUserCollection())
+                .document(reference.getId()).set(newUser)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.getException() != null){
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

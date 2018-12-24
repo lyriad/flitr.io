@@ -1,10 +1,12 @@
 package com.lyriad.flitrio.Classes;
 
+import android.net.Uri;
+
 public final class StaticData {
 
     private static final String userCollection = "User";
-    private static final String firebaseStorage = "gs://flitrio.appspot.com";
-    private static final String profilePictureFolder = "ProfilePicture";
+    private static final String profilePictureFolder = "Profile Pictures";
+    private static final String emptyPicture = "https://firebasestorage.googleapis.com/v0/b/flitrio.appspot.com/o/Profile%20Pictures%2Fempty_profile_picture.png?alt=media&token=4de925ab-d22c-4db7-b9c8-e0bff7a2e8ea";
 
     private static String subscriptions[] = {"<Select subscription plan>",
             "Basic plan", "Standard plan", "Premium plan"};
@@ -25,12 +27,12 @@ public final class StaticData {
         return userCollection;
     }
 
-    public static String getFirebaseStorage() {
-        return firebaseStorage;
-    }
-
     public static String getProfilePictureFolder() {
         return profilePictureFolder;
+    }
+
+    public static String getEmptyPicture() {
+        return emptyPicture;
     }
 
     public static String[] getCountries() {

@@ -64,7 +64,7 @@
                 android:layout_gravity="center"
                 app:civ_border_width="2dp"
                 app:civ_border_color="@color/colorPrimaryDark"
-                app:srcCompat="@mipmap/ic_launcher"
+                app:srcCompat="@mipmap/empty_profile_picture"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
