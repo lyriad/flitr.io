@@ -116,6 +116,33 @@
         app:layout_constraintRight_toRightOf="@+id/main_layout"
         app:layout_constraintTop_toBottomOf="@+id/input_field_layout"/>
 
+    <LinearLayout
+        android:id="@+id/sign_in_progress_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="159dp"
+        app:layout_constraintBottom_toTopOf="@id/sign_in_create_account"
+        app:layout_constraintLeft_toLeftOf="@+id/main_layout"
+        app:layout_constraintRight_toRightOf="@+id/main_layout"
+        app:layout_constraintTop_toBottomOf="@+id/input_field_layout"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/sign_in_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logging In..."
+            android:textSize="19sp"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/sign_in_create_account"
         android:layout_width="wrap_content"

@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.lyriad.flitrio">
 
-    <permission android:name="android.permission.INTERNET"/>
-    <permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <permission android:name="android.permission.INTERNET" />
+    <permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -21,20 +21,26 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activities.SignUpActivity"
+        <activity
+            android:name=".Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.SubscriptionActivity"
+        <activity
+            android:name=".Activities.SignUpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.SubscriptionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".Activities.UserProfileActivity"></activity>
     </application>
 
 </manifest>
