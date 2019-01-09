@@ -20,7 +20,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -33,7 +32,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -69,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        StaticData.loadCountries();
 
         fireDatabase = FirebaseFirestore.getInstance();
         fireAuthentication = FirebaseAuth.getInstance();
@@ -221,17 +220,28 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void saveToDatabase(String imageUrl){
+        fireAuthentication.signInWithEmailAndPassword(textEmail.getText().toString().trim(), textPassword.getText().toString());
 
-        setProfilePicture();
-        DocumentReference reference = fireDatabase
-                .collection(StaticData.getUserCollection()).document();
+        String displayName;
+        if (TextUtils.isEmpty(textMiddleName.getText().toString().trim())){
+            displayName = textGivenName.getText().toString().trim() + " " + textLastName.getText().toString().trim();
+        }else{
+            displayName = textGivenName.getText().toString().trim() + " "
+                    + textMiddleName.getText().toString().trim().charAt(0) + ". "
+                    + textLastName.getText().toString().trim();
+        }
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(textGivenName.getText().toString() + " " + textLastName.getText().toString())
+                .setPhotoUri(Uri.parse(imageUrl))
+                .setDisplayName(displayName)
+                .build();
+        fireAuthentication.getCurrentUser().updateProfile(profileUpdates);
+
         Map<String, Object> newUser = new HashMap<>();
 
-        String gender;
-        if (male.isChecked()) gender = "Male"; else gender = "Female";
+        String gender; if (male.isChecked()) gender = "Male"; else gender = "Female";
 
-        try {
-            newUser.put("Profile picture", imageUrl);
+        try{
             newUser.put("Given Name", textGivenName.getText().toString().trim());
             newUser.put("Middle Name", textMiddleName.getText().toString().trim());
             newUser.put("Last Name", textLastName.getText().toString().trim());
@@ -240,32 +250,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     countrySpinner.getSelectedItem().toString());
             newUser.put("Gender", gender);
             newUser.put("Username", textUsername.getText().toString().trim());
-            newUser.put("Email", textEmail.getText().toString().trim());
+            newUser.put("Subscription", subscriptionSpinner.getSelectedItem().toString());
         }catch (NullPointerException e){
             e.printStackTrace();
         }
 
         fireDatabase.collection(StaticData.getUserCollection())
-                .document(reference.getId()).set(newUser)
+                .document(textEmail.getText().toString()).set(newUser)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.getException() != null){
+                        if (task.isSuccessful()){
+                            Toast.makeText(getApplicationContext(), "User created successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }else if (task.getException() != null){
                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-    }
-
-    private void setProfilePicture(){
-        fireAuthentication.signInWithEmailAndPassword(textEmail.getText().toString().trim(), textPassword.getText().toString());
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(textGivenName.getText().toString() + " " + textLastName.getText().toString())
-                .setPhotoUri(imageUri)
-                .build();
-        FirebaseUser user = fireAuthentication.getCurrentUser();
-        user.updateProfile(profileUpdates);
-        fireAuthentication.signOut();
     }
 
     private boolean verifyFields(){
@@ -275,35 +277,30 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         if (TextUtils.isEmpty(textGivenName.getText().toString().trim())){
             keyboard.showSoftInput(textGivenName, InputMethodManager.SHOW_IMPLICIT);
-            Toast.makeText(SignUpActivity.this, "Please enter your name",
-                    Toast.LENGTH_SHORT).show();
             textGivenName.requestFocus();
+            textGivenName.setError("Please enter your name");
             return true;
         }else if(TextUtils.isEmpty(textLastName.getText().toString().trim())){
             keyboard.showSoftInput(textLastName, InputMethodManager.SHOW_IMPLICIT);
-            Toast.makeText(SignUpActivity.this, "Please enter you last name",
-                    Toast.LENGTH_SHORT).show();
             textLastName.requestFocus();
+            textLastName.setError("Please enter you last name");
             return true;
         }else if (TextUtils.isEmpty(textUsername.getText().toString().trim())){
             keyboard.showSoftInput(textUsername, InputMethodManager.SHOW_IMPLICIT);
-            Toast.makeText(SignUpActivity.this, "Please enter a username",
-                    Toast.LENGTH_SHORT).show();textUsername.requestFocus();
+            textUsername.requestFocus();
+            textUsername.setError("Please enter a username");
             return true;
         }else if(!Patterns.EMAIL_ADDRESS.matcher(textEmail.getText().toString().trim()).matches()){
             keyboard.showSoftInput(textEmail, InputMethodManager.SHOW_IMPLICIT);
-            Toast.makeText(SignUpActivity.this, "Please enter a valid email address",
-                    Toast.LENGTH_SHORT).show();
             textEmail.requestFocus();
+            textEmail.setError("Please enter a valid email address");
             return true;
         }else if (TextUtils.isEmpty(dateText.getText().toString().trim())){
-            Toast.makeText(SignUpActivity.this, "Please enter your birth date",
-                    Toast.LENGTH_SHORT).show();
+            dateText.setError("Please enter your birth date");
             dateText.requestFocus();
             return true;
         }else if (!male.isChecked() && !female.isChecked()){
-            Toast.makeText(SignUpActivity.this, "Please select your gender",
-                    Toast.LENGTH_SHORT).show();
+            female.setError("Please select your gender");
             return true;
         }else if (countrySpinner.getSelectedItemPosition() == 0){
             Toast.makeText(SignUpActivity.this, "Please select your country of origin",
@@ -315,27 +312,23 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return true;
         }else if (TextUtils.isEmpty(textPassword.getText().toString())){
             keyboard.showSoftInput(textPassword, InputMethodManager.SHOW_IMPLICIT);
-            Toast.makeText(SignUpActivity.this, "Please enter a password",
-                    Toast.LENGTH_SHORT).show();
             textPassword.requestFocus();
+            textPassword.setError("Please enter a password");
             return true;
         }else if (textPassword.getText().toString().length() < 6){
             keyboard.showSoftInput(textPassword, InputMethodManager.SHOW_IMPLICIT);
-            Toast.makeText(SignUpActivity.this, "The password must be at least 6 characters long",
-                    Toast.LENGTH_SHORT).show();
             textPassword.requestFocus();
+            textPassword.setError("The password must be at least 6 characters long");
             return true;
         }else if(TextUtils.isEmpty(textConfirmPassword.getText().toString())){
             keyboard.showSoftInput(textConfirmPassword, InputMethodManager.SHOW_IMPLICIT);
-            Toast.makeText(SignUpActivity.this, "Please confirm your password",
-                    Toast.LENGTH_SHORT).show();
             textConfirmPassword.requestFocus();
+            textConfirmPassword.setError("Please confirm your password");
             return true;
         }else if (!textPassword.getText().toString().
                 equals(textConfirmPassword.getText().toString())){
-            Toast.makeText(SignUpActivity.this, "Passwords do not match",
-                    Toast.LENGTH_SHORT).show();
-            textPassword.requestFocus();
+            textConfirmPassword.requestFocus();
+            textConfirmPassword.setError("Passwords do not match");
             return true;
         }
         return false;

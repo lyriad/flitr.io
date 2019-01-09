@@ -12,6 +12,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -34,12 +35,14 @@ dependencies {
     //external libraries
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     //firebase
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.google.firebase:firebase-firestore:17.1.4'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.7'
+    implementation 'com.google.firebase:firebase-firestore:17.1.5'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
 }

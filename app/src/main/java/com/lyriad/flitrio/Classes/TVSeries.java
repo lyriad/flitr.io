@@ -1,41 +1,28 @@
 package com.lyriad.flitrio.Classes;
 
+import java.util.List;
 import java.util.ArrayList;
 
-public class TVSeries {
+public class TVSeries implements Comparable<TVSeries>{
 
-    private long id;
-    private String title;
-    private String genre;
-    private String countryOfOrigin;
-    private String language;
-    private int runningTime; //in minutes
-    private byte[] titleCard;
+    private String title, genre, countryOfOrigin, language, titleCard, wallpaperUrl, summary;
+    private int runningTime; //average in minutes
     private float score;
-    private ArrayList<Season> seasons;
+    private List<Season> seasons;
 
     public TVSeries(String title, String genre, String countryOfOrigin, String language,
-                    int runningTime, float score, ArrayList<Season> seasons){
-        super();
+                    String titleCard, String wallpaperUrl, int runningTime, float score,
+                    String summary, List<Season> seasons) {
         this.title = title;
         this.genre = genre;
         this.countryOfOrigin = countryOfOrigin;
         this.language = language;
+        this.titleCard = titleCard;
+        this.wallpaperUrl = wallpaperUrl;
         this.runningTime = runningTime;
         this.score = score;
-        if(seasons == null){
-            this.seasons = new ArrayList<>();
-        }else{
-            this.seasons = seasons;
-        }
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        this.summary = summary;
+        if (seasons == null) this.seasons = new ArrayList<>(); else this.seasons = seasons;
     }
 
     public String getTitle() {
@@ -46,28 +33,20 @@ public class TVSeries {
         this.title = title;
     }
 
-    public String getCountryOfOrigin() {
-        return countryOfOrigin;
-    }
-
-    public void setCountryOfOrigin(String countryOfOrigin) {
-        this.countryOfOrigin = countryOfOrigin;
-    }
-
-    public int getRunningTime() {
-        return runningTime;
-    }
-
-    public void setRunningTime(int runningTime) {
-        this.runningTime = runningTime;
-    }
-
     public String getGenre() {
         return genre;
     }
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public String getCountryOfOrigin() {
+        return countryOfOrigin;
+    }
+
+    public void setCountryOfOrigin(String countryOfOrigin) {
+        this.countryOfOrigin = countryOfOrigin;
     }
 
     public String getLanguage() {
@@ -78,12 +57,28 @@ public class TVSeries {
         this.language = language;
     }
 
-    public byte[] getTitleCard() {
+    public String getTitleCard() {
         return titleCard;
     }
 
-    public void setTitleCard(byte[] titleCard) {
+    public void setTitleCard(String titleCard) {
         this.titleCard = titleCard;
+    }
+
+    public String getWallpaperUrl() {
+        return wallpaperUrl;
+    }
+
+    public void setWallpaperUrl(String wallpaperUrl) {
+        this.wallpaperUrl = wallpaperUrl;
+    }
+
+    public int getRunningTime() {
+        return runningTime;
+    }
+
+    public void setRunningTime(int runningTime) {
+        this.runningTime = runningTime;
     }
 
     public float getScore() {
@@ -94,4 +89,27 @@ public class TVSeries {
         this.score = score;
     }
 
+    public List<Season> getSeasons() {
+        return seasons;
+    }
+
+    public void setSeasons(List<Season> seasons) {
+        this.seasons = seasons;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    @Override
+    public int compareTo(TVSeries o) {
+        if(this.getScore() > o.getScore()){
+            return 1;
+        }
+        return 0;
+    }
 }

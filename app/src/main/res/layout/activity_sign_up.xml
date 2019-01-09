@@ -23,7 +23,7 @@
             android:id="@+id/sign_up_back_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:srcCompat="@drawable/back_icon_white"/>
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
@@ -182,15 +182,13 @@
                     android:backgroundTint="@color/white"
                     android:textColorHint="@color/grey"
                     android:textColor="@color/white"
-                    android:inputType="date"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"/>
+                    android:inputType="date"/>
 
                 <ImageView
                     android:id="@+id/sign_up_date_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    app:srcCompat="@drawable/calendar_icon_white" />
+                    app:srcCompat="@drawable/ic_date_range_white_24dp" />
             </LinearLayout>
 
             <RadioGroup
@@ -261,7 +259,7 @@
                     android:id="@+id/sign_up_subscription_help"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/help_icon_white"/>
+                    app:srcCompat="@drawable/ic_help_white_24dp"/>
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout

@@ -2,36 +2,21 @@ package com.lyriad.flitrio.Classes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Season {
 
-    private long id;
-    private String title;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private TVSeries parentTVSeries;
-    private byte[] seasonImage;
-    private ArrayList<MotionPicture> episodes;
+    private String title, seasonImage;
+    private LocalDate startDate, endDate;
+    private List<Episode> episodes;
 
-    public Season(String title, LocalDate startDate, LocalDate endDate, TVSeries parentTVSeries,
-                  ArrayList<MotionPicture> episodes){
+    public Season(String title, LocalDate startDate, LocalDate endDate,
+                  String seasonImage, List<Episode> episodes){
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.parentTVSeries = parentTVSeries;
-        if(episodes == null){
-            this.episodes = new ArrayList<>();
-        }else{
-            this.episodes = episodes;
-        }
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        this.seasonImage = seasonImage;
+        if(episodes == null) this.episodes = new ArrayList<>(); else this.episodes = episodes;
     }
 
     public String getTitle() {
@@ -58,27 +43,19 @@ public class Season {
         this.endDate = endDate;
     }
 
-    public TVSeries getParentTVSeries() {
-        return parentTVSeries;
-    }
-
-    public void setParentTVSeries(TVSeries parentTVSeries) {
-        this.parentTVSeries = parentTVSeries;
-    }
-
-    public byte[] getSeasonImage() {
+    public String getSeasonImage() {
         return seasonImage;
     }
 
-    public void setSeasonImage(byte[] seasonImage) {
+    public void setSeasonImage(String seasonImage) {
         this.seasonImage = seasonImage;
     }
 
-    public ArrayList<MotionPicture> getEpisodes() {
+    public List<Episode> getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(ArrayList<MotionPicture> episodes) {
+    public void setEpisodes(List<Episode> episodes) {
         this.episodes = episodes;
     }
 

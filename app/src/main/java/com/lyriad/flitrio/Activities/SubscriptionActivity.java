@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.lyriad.flitrio.R;
 
 public class SubscriptionActivity extends AppCompatActivity implements View.OnClickListener {

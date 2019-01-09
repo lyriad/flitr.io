@@ -20,7 +20,7 @@
             android:id="@+id/subscription_back_button"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:srcCompat="@drawable/back_icon_white" />
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
 
     </androidx.appcompat.widget.Toolbar>
 

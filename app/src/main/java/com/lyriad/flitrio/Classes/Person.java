@@ -1,24 +1,21 @@
 package com.lyriad.flitrio.Classes;
 
-import java.time.LocalDate;
-
 public class Person {
 
-    private long id;
     private String givenName;
     private String middleName;
     private String lastName;
     private String birthDate;
     private String countryOfOrigin;
     private String gender;
-    private byte[] personImage;
+    private String personImage;
 
     public Person(){
         super();
     }
 
     public Person(String givenName, String middleName, String lastName, String birthDate,
-                  String countryOfOrigin, String gender){
+                  String countryOfOrigin, String gender, String personImage){
         super();
         this.givenName = givenName;
         this.middleName = middleName;
@@ -26,14 +23,7 @@ public class Person {
         this.birthDate = birthDate;
         this.countryOfOrigin = countryOfOrigin;
         this.gender = gender;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        this.personImage = personImage;
     }
 
     public String getGivenName() {
@@ -84,19 +74,12 @@ public class Person {
         this.gender = gender;
     }
 
-    public byte[] getPersonImage() {
+    public String getPersonImage() {
         return personImage;
     }
 
-    public void setPersonImage(byte[] personImage) {
+    public void setPersonImage(String personImage) {
         this.personImage = personImage;
     }
 
-    /*
-    * LocalDate dateTemp = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).
-    * toLocalDate();
-    *
-    * String birthDate = String.format("%02d", dateTemp.getDayOfMonth()) + "/" +
-    * String.format("%02d", dateTemp.getMonthValue()) + "/" + dateTemp.getYear();
-    */
 }

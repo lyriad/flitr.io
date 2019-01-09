@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.TVSeriesActivity"
+    android:background="@color/colorPrimary">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tv_series_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/tv_series_back"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_series_toolbar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/tv_series_wallpaper_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/tv_series_wallpaper"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_launcher_background"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/gradient_background"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentBottom="true">
+                    <TextView
+                        android:id="@+id/tv_series_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Interstellar"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tv_series_release_year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2018"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"/>
+                        <TextView
+                            android:id="@+id/tv_series_genre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Adventure"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginStart="16dp"/>
+                        <TextView
+                            android:id="@+id/tv_series_season_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3 Seasons"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginStart="16dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_series_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/basic_plan"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:rotation="180"
+                android:layout_marginBottom="16dp"
+                app:srcCompat="@drawable/gradient_background"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tv_series_seasons"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tv_series_episodes"
+                android:layout_width="match_parent"
+                android:layout_height="544dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

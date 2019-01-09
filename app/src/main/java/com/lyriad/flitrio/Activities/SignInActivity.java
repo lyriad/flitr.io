@@ -18,10 +18,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.lyriad.flitrio.Classes.FirebaseData;
 import com.lyriad.flitrio.Classes.StaticData;
 import com.lyriad.flitrio.R;
 
@@ -29,7 +30,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private FirebaseFirestore fireDatabase;
     private FirebaseAuth fireAuthentication;
-    private FirebaseUser currentUser;
 
     InputMethodManager keyboard;
     TextInputEditText textUsernameEmail, textPassword;
@@ -40,9 +40,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         fireDatabase = FirebaseFirestore.getInstance();
         fireAuthentication = FirebaseAuth.getInstance();
+        FirebaseData.loadMedia(fireDatabase);
         keyboard = (InputMethodManager) getSystemService(SignInActivity.this.
                 INPUT_METHOD_SERVICE);
 
@@ -60,8 +60,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        currentUser = fireAuthentication.getCurrentUser();
-        checkInputFields();
+        if (fireAuthentication.getCurrentUser() != null){
+            loadUserData();
+        }
     }
 
     @Override
@@ -80,16 +81,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         String password = textPassword.getText().toString();
 
         if (TextUtils.isEmpty(usernameEmail)){
-            Toast.makeText(this, "Please enter a username or email",
-                    Toast.LENGTH_SHORT).show();
             textUsernameEmail.requestFocus();
             keyboard.showSoftInput(textUsernameEmail, InputMethodManager.SHOW_IMPLICIT);
+            textUsernameEmail.setError("Please enter an email or username");
             return;
         }else if (TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Please enter a password",
-                    Toast.LENGTH_SHORT).show();
             textPassword.requestFocus();
             keyboard.showSoftInput(textPassword, InputMethodManager.SHOW_IMPLICIT);
+            textPassword.setError("Please enter a password");
             return;
         }
 
@@ -116,7 +115,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     String email = "";
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if (document.get("Username").toString().equals(username)){
-                            email = document.get("Email").toString();
+                            email = document.getId();
                             break;
                         }
                     }
@@ -144,11 +143,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     if (task.isSuccessful()){
                         progress.setVisibility(View.INVISIBLE);
                         buttonSignIn.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(),
-                                "Welcome", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SignInActivity.this,
-                                MainActivity.class));
-                        finish();
+                        loadUserData();
                     }else if (task.getException() != null){
                         progress.setVisibility(View.INVISIBLE);
                         buttonSignIn.setVisibility(View.VISIBLE);
@@ -158,5 +153,29 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
             });
+    }
+
+    private void loadUserData(){
+        fireDatabase.document(StaticData.getUserCollection() + "/" + fireAuthentication.getCurrentUser().getEmail()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot doc = task.getResult();
+                    FirebaseData.getCurrentUser().setGivenName(doc.get("Given Name").toString());
+                    FirebaseData.getCurrentUser().setMiddleName(doc.get("Middle Name").toString());
+                    FirebaseData.getCurrentUser().setLastName(doc.get("Last Name").toString());
+                    FirebaseData.getCurrentUser().setBirthDate(doc.get("Birthdate").toString());
+                    FirebaseData.getCurrentUser().setCountryOfOrigin(doc.get("Country of Origin").toString());
+                    FirebaseData.getCurrentUser().setGender(doc.get("Gender").toString());
+                    FirebaseData.getCurrentUser().setUsername(doc.get("Username").toString());
+                    FirebaseData.getCurrentUser().setSubscription(doc.get("Subscription").toString());
+
+                    startActivity(new Intent(SignInActivity.this,
+                            MainActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 }
