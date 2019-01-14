@@ -20,14 +20,6 @@ public class RecyclerViewEpisodeAdapter extends RecyclerView.Adapter<RecyclerVie
         this.adapterEpisodes = adapterEpisodes;
     }
 
-    public void updateAdapter(List<Episode> newEpisodes){
-        adapterEpisodes.clear();
-        for (int i = 0; i < newEpisodes.size(); i++){
-            adapterEpisodes.add(newEpisodes.get(i));
-            notifyItemChanged(i);
-        }
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

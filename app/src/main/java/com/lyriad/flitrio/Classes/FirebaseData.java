@@ -79,20 +79,21 @@ public final class FirebaseData {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        Map<String, Object> seasonsMap = (HashMap<String, Object>) document.get("Seasons");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
                         List<Season> seasons = new ArrayList<>();
-                        List<Episode> episodes = new ArrayList<>();
                         String seasonTitle = "", seasonImage = "";
                         LocalDate seasonStartDate = null, seasonEndDate = null;
+                        String episodeTitle = "", episodeSummary = "", episodePlay = "";
+                        int episodeDuration = 0;
+                        Map<String, Object> seasonsMap = (HashMap<String, Object>) document.get("Seasons");
                         for (Map.Entry<String, Object> entrySeason : seasonsMap.entrySet()) {
                             Map<String, Object> seasonMap = (HashMap<String, Object>) entrySeason.getValue();
+                            List<Episode> episodes = new ArrayList<>();
                             for (Map.Entry<String, Object> season : seasonMap.entrySet()){
                                 switch (season.getKey()){
                                     case "Title":
                                         seasonTitle = season.getValue().toString();
-                                        Log.wtf(TAG, "\nSeason " + entrySeason.getKey() + " - " + seasonTitle);
                                         break;
                                     case "Season Image":
                                         seasonImage = season.getValue().toString();
@@ -105,15 +106,12 @@ public final class FirebaseData {
                                         break;
                                     case "Episodes":
                                         Map<String, Object> episodesMap = (HashMap<String, Object>) season.getValue();
-                                        String episodeTitle = "", episodeSummary = "", episodePlay = "";
-                                        int episodeDuration = 0;
                                         for (Map.Entry<String, Object> entryEpisode : episodesMap.entrySet()) {
                                             Map<String, Object> episodeMap = (HashMap<String, Object>) entryEpisode.getValue();
                                             for (Map.Entry<String, Object> episode : episodeMap.entrySet()){
                                                 switch (episode.getKey()){
                                                     case "Title":
                                                         episodeTitle = episode.getValue().toString();
-                                                        Log.wtf(TAG, "Episode " + entryEpisode.getKey() + " - " + episodeTitle);
                                                         break;
                                                     case "Summary":
                                                         episodeSummary = episode.getValue().toString();

@@ -8,7 +8,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.lyriad.flitrio.Classes.Film;
@@ -22,6 +24,7 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView title, releaseDate, genre, description;
     ImageView backButton, wallpaper;
+    LinearLayout rateLayout, addToListLayout;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -37,9 +40,13 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
         title = findViewById(R.id.film_title);
         releaseDate = findViewById(R.id.film_release_year);
         genre = findViewById(R.id.film_genre);
+        addToListLayout = findViewById(R.id.film_add_to_list);
+        rateLayout = findViewById(R.id.film_rate);
         description = findViewById(R.id.film_description);
 
         backButton.setOnClickListener(this);
+        addToListLayout.setOnClickListener(this);
+        rateLayout.setOnClickListener(this);
 
         String date = String.valueOf(film.getReleaseDate().getDayOfMonth()) +
                 " " + film.getReleaseDate().getMonth().toString().charAt(0) +
@@ -58,6 +65,12 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.film_back:
                 finish();
+                break;
+            case R.id.film_add_to_list:
+                Toast.makeText(this, "Added to list", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.film_rate:
+                Toast.makeText(this, "Rate", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

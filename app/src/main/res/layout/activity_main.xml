@@ -21,8 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp">
+            android:weightSum="100">
 
             <TextView
                 android:id="@+id/app_name"
@@ -32,14 +31,14 @@
                 android:textColor="@android:color/white"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:layout_marginRight="247dp"
-                android:layout_marginEnd="247dp"/>
+                android:layout_weight="96"/>
 
             <ImageView
                 android:id="@+id/main_search_button"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:srcCompat="@drawable/ic_search_white_24dp"/>
+                app:srcCompat="@drawable/ic_search_white_24dp"
+                android:layout_weight="1"/>
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/main_profile_picture"
@@ -49,13 +48,12 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 app:civ_border_color="@color/colorPrimaryDark"
-                app:srcCompat="@mipmap/empty_profile_picture"/>
-
+                app:srcCompat="@mipmap/empty_profile_picture"
+                android:layout_weight="1"/>
         </LinearLayout>
-
     </androidx.appcompat.widget.Toolbar>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/main_scroll_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -126,7 +124,12 @@
                         app:srcCompat="@drawable/ic_info_outline_white_24dp" />
                 </LinearLayout>
             </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/main_film_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

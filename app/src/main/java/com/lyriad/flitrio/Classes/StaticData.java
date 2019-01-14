@@ -23,10 +23,7 @@ public final class StaticData {
 
     private static List<String> countries = new ArrayList<>();
 
-    private static String genres[] = {"Action", "Adventure", "Comedy", "Crime", "Drama", "Historical",
-            "Horror", "Musical", "Science Fiction", "War", "Western", "Biographical", "Mystery",
-            "Disaster", "Fantasy", "Romance", "Sports", "Superhero", "Supernatural", "Thriller",
-            "Zombie", "Animated", "Documentary", "Erotic", "Silent"};
+    private static List<String> genres = new ArrayList<>();
 
     public static String getUserCollection() {
         return userCollection;
@@ -56,7 +53,7 @@ public final class StaticData {
         return subscriptions;
     }
 
-    public static String[] getGenres() {
+    public static List<String> getGenres() {
         return genres;
     }
 
@@ -68,6 +65,7 @@ public final class StaticData {
     public static void loadCountries(){
         countries.clear();
         String[] countryCodes = Locale.getISOCountries();
+        countries.add("<Select a country>");
         for (String countryCode : countryCodes){
 
             Locale locale = new Locale("", countryCode);
@@ -75,5 +73,15 @@ public final class StaticData {
             countries.add(name);
         }
         Collections.sort(countries);
+    }
+
+    public static void loadGenres(){
+        String genresArray[] = {"Action", "Adventure", "Comedy", "Crime", "Drama", "Historical",
+                "Horror", "Musical", "Science Fiction", "War", "Western", "Biographical", "Mystery",
+                "Disaster", "Fantasy", "Romance", "Sports", "Superhero", "Supernatural", "Thriller",
+                "Zombie", "Animated", "Documentary", "Erotic", "Silent"};
+        for(String genre : genresArray){
+            genres.add(genre);
+        }
     }
 }

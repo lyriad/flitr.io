@@ -10,7 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.lyriad.flitrio.Adapters.RecyclerViewEpisodeAdapter;
@@ -33,7 +35,7 @@ public class TVSeriesActivity extends AppCompatActivity implements View.OnClickL
     ImageView backButton, wallpaper;
     RecyclerView seasonRecyclerView, episodeRecyclerView;
     RecyclerViewSeasonAdapter seasonAdapter;
-
+    LinearLayout rateLayout, addToListLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -51,12 +53,17 @@ public class TVSeriesActivity extends AppCompatActivity implements View.OnClickL
         releaseYear = findViewById(R.id.tv_series_release_year);
         genre = findViewById(R.id.tv_series_genre);
         seasonCount = findViewById(R.id.tv_series_season_count);
+        addToListLayout = findViewById(R.id.tv_series_add_to_list);
+        rateLayout = findViewById(R.id.tv_series_rate);
         description = findViewById(R.id.tv_series_description);
 
         backButton.setOnClickListener(this);
+        addToListLayout.setOnClickListener(this);
+        rateLayout.setOnClickListener(this);
 
         episodeRecyclerView.setAdapter(new RecyclerViewEpisodeAdapter(seasons.get(0).getEpisodes()));
         episodeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         seasonAdapter = new RecyclerViewSeasonAdapter(seasons, this);
         seasonAdapter.setOnItemClickListener(new RecyclerViewSeasonAdapter.OnItemClickListener() {
             public void onItemClick(int position) {
@@ -79,6 +86,12 @@ public class TVSeriesActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.tv_series_back:
                 finish();
+                break;
+            case R.id.tv_series_add_to_list:
+                Toast.makeText(this, "Added to list", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_series_rate:
+                Toast.makeText(this, "Rate", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

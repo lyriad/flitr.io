@@ -10,6 +10,10 @@ public class Season {
     private LocalDate startDate, endDate;
     private List<Episode> episodes;
 
+    public Season(){
+        super();
+    }
+
     public Season(String title, LocalDate startDate, LocalDate endDate,
                   String seasonImage, List<Episode> episodes){
         this.title = title;

@@ -112,6 +112,72 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:weightSum="9">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"/>
+
+                <LinearLayout
+                    android:id="@+id/film_add_to_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:srcCompat="@drawable/ic_add_white_24dp"
+                        android:layout_gravity="center_horizontal"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Add to list"
+                        android:textSize="9sp"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <LinearLayout
+                    android:id="@+id/film_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:srcCompat="@drawable/ic_star_border_white_24dp"
+                        android:layout_gravity="center_horizontal"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Rate"
+                        android:textSize="9sp"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"/>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/film_description"
                 android:layout_width="match_parent"
@@ -119,7 +185,7 @@
                 android:text="@string/basic_plan"
                 android:textColor="@color/white"
                 android:textSize="13sp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"

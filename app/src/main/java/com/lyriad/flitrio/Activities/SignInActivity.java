@@ -43,6 +43,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         fireDatabase = FirebaseFirestore.getInstance();
         fireAuthentication = FirebaseAuth.getInstance();
         FirebaseData.loadMedia(fireDatabase);
+        StaticData.loadGenres();
         keyboard = (InputMethodManager) getSystemService(SignInActivity.this.
                 INPUT_METHOD_SERVICE);
 
