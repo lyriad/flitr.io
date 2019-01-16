@@ -115,9 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (TVSeries tvShow : FirebaseData.getTVSeriesList()) {
             trendingSlides.add(new Slide(tvShow.getTitle(), tvShow.getWallpaperUrl()));
         }
-        for (Film film : FirebaseData.getFilmList()) {
-            trendingSlides.add(new Slide(film.getTitle(), film.getWallpaperUrl()));
-        }
     }
 
     private Intent getSelectedIntent(){

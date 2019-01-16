@@ -55,11 +55,9 @@ public final class FirebaseData {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 filmList.add(new Film(
                                         document.get("Title").toString(),
-                                        document.get("Director").toString(),
                                         document.get("Summary").toString(),
                                         document.get("Play").toString(),
                                         Integer.parseInt(document.get("Duration").toString()),
-                                        (ArrayList<String>) document.get("Writers"),
                                         (ArrayList<String>) document.get("Cast"),
                                         document.get("Wallpaper").toString(),
                                         document.get("Poster").toString(),

@@ -6,24 +6,22 @@ import java.time.LocalDate;
 
 public class Film extends Episode implements Comparable<Film>{
 
-    private String director, wallpaperUrl, posterUrl, countryOfOrigin;
+    private String wallpaperUrl, posterUrl, countryOfOrigin;
     private List<String> genres; //first genre is main genre
     private LocalDate releaseDate;
     private float score;
-    private List<String> writers, mainCast; //first genre is main genre
+    private List<String> mainCast; //first genre is main genre
 
-    public Film(String title, String director, String summary, String playLink, int duration,
-                List<String> writers, List<String> mainCast, String wallpaperUrl, String posterUrl,
+    public Film(String title, String summary, String playLink, int duration,
+                List<String> mainCast, String wallpaperUrl, String posterUrl,
                 String countryOfOrigin, List<String> genres, LocalDate releaseDate, float score) {
         super(title, summary, playLink, duration);
         this.wallpaperUrl = wallpaperUrl;
         this.posterUrl = posterUrl;
         this.countryOfOrigin = countryOfOrigin;
-        this.director = director;
         this.releaseDate = releaseDate;
         this.score = score;
         if (genres == null) this.genres = new ArrayList<>(); else this.genres = genres;
-        if (writers == null) this.writers = new ArrayList<>(); else this.writers = writers;
         if (mainCast == null) this.mainCast = new ArrayList<>(); else this.mainCast = mainCast;
     }
 
@@ -75,29 +73,12 @@ public class Film extends Episode implements Comparable<Film>{
         this.score = score;
     }
 
-
-    public List<String> getWriters() {
-        return writers;
-    }
-
-    public void setWriters(List<String> writers) {
-        this.writers = writers;
-    }
-
     public List<String> getMainCast() {
         return mainCast;
     }
 
     public void setMainCast(List<String> mainCast) {
         this.mainCast = mainCast;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
     }
 
     @Override
