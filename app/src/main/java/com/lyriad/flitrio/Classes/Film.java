@@ -12,7 +12,7 @@ public class Film extends Episode implements Comparable<Film>{
     private float score;
     private List<String> mainCast; //first genre is main genre
 
-    public Film(String title, String summary, String playLink, int duration,
+    public Film(String title, String summary, String playLink, String duration,
                 List<String> mainCast, String wallpaperUrl, String posterUrl,
                 String countryOfOrigin, List<String> genres, LocalDate releaseDate, float score) {
         super(title, summary, playLink, duration);

@@ -1,10 +1,9 @@
 package com.lyriad.flitrio.Classes;
 
 public class Episode {
-    private String title, summary, playLink;
-    private int duration; //in minutes
+    private String title, summary, playLink, duration;
 
-    public Episode(String title, String summary, String playLink, int duration) {
+    public Episode(String title, String summary, String playLink, String duration) {
         this.title = title;
         this.summary = summary;
         this.playLink = playLink;
@@ -19,11 +18,11 @@ public class Episode {
         this.title = title;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 

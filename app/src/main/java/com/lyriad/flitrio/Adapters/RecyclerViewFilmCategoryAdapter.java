@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.lyriad.flitrio.Activities.FilmActivity;
-import com.lyriad.flitrio.Activities.MainActivity;
 import com.lyriad.flitrio.Classes.Film;
 import com.lyriad.flitrio.R;
 
@@ -32,7 +30,7 @@ public class RecyclerViewFilmCategoryAdapter extends RecyclerView.Adapter<Recycl
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_film_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_film_poster, parent, false);
         return (new CategoryViewHolder(view));
     }
 

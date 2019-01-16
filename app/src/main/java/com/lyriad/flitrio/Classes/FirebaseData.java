@@ -57,7 +57,7 @@ public final class FirebaseData {
                                         document.get("Title").toString(),
                                         document.get("Summary").toString(),
                                         document.get("Play").toString(),
-                                        Integer.parseInt(document.get("Duration").toString()),
+                                        document.get("Duration").toString(),
                                         (ArrayList<String>) document.get("Cast"),
                                         document.get("Wallpaper").toString(),
                                         document.get("Poster").toString(),
@@ -83,7 +83,7 @@ public final class FirebaseData {
                         String seasonTitle = "", seasonImage = "";
                         LocalDate seasonStartDate = null, seasonEndDate = null;
                         String episodeTitle = "", episodeSummary = "", episodePlay = "";
-                        int episodeDuration = 0;
+                        String episodeDuration = "";
                         Map<String, Object> seasonsMap = (HashMap<String, Object>) document.get("Seasons");
                         for (Map.Entry<String, Object> entrySeason : seasonsMap.entrySet()) {
                             Map<String, Object> seasonMap = (HashMap<String, Object>) entrySeason.getValue();
@@ -115,7 +115,7 @@ public final class FirebaseData {
                                                         episodeSummary = episode.getValue().toString();
                                                         break;
                                                     case "Duration":
-                                                        episodeDuration = Integer.parseInt(episode.getValue().toString());
+                                                        episodeDuration = episode.getValue().toString();
                                                         break;
                                                     case "Play":
                                                         episodePlay = episode.getValue().toString();
