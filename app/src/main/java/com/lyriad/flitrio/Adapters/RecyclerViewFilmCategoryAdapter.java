@@ -1,6 +1,7 @@
 package com.lyriad.flitrio.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.lyriad.flitrio.Activities.FilmActivity;
+import com.lyriad.flitrio.Activities.MainActivity;
 import com.lyriad.flitrio.Classes.Film;
 import com.lyriad.flitrio.R;
 
@@ -34,8 +37,16 @@ public class RecyclerViewFilmCategoryAdapter extends RecyclerView.Adapter<Recycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, final int position) {
         Glide.with(context).load(adapterFilms.get(position).getPosterUrl()).into(holder.filmPoster);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FilmActivity.class);
+                intent.putExtra("Film", adapterFilms.get(position).getTitle());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

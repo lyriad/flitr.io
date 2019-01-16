@@ -104,8 +104,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Play", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.trending_open:
-                Intent trendingIntent = getSelectedIntent();
-                startActivity(trendingIntent);
+                Intent intent = null;
+                for (TVSeries aux : FirebaseData.getTVSeriesList()){
+                    if (aux.getTitle().equals(trendingSlides.get(trending.getCurrentItem()).getTitle())) {
+                        intent = new Intent(MainActivity.this, TVSeriesActivity.class);
+                        intent.putExtra("TV Series", trendingSlides.get(trending.getCurrentItem()).getTitle());
+                        break;
+                    }
+                }
+                startActivity(intent);
                 break;
         }
     }
@@ -115,30 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (TVSeries tvShow : FirebaseData.getTVSeriesList()) {
             trendingSlides.add(new Slide(tvShow.getTitle(), tvShow.getWallpaperUrl()));
         }
-    }
-
-    private Intent getSelectedIntent(){
-        Intent intent = null;
-        boolean foundFilm = false;
-
-        for (Film aux : FirebaseData.getFilmList()){
-            if (aux.getTitle().equals(trendingSlides.get(trending.getCurrentItem()).getTitle())){
-                intent = new Intent(MainActivity.this, FilmActivity.class);
-                intent.putExtra("Film", trendingSlides.get(trending.getCurrentItem()).getTitle());
-                foundFilm = true;
-            }
-        }
-
-        if (!foundFilm){
-            for (TVSeries aux : FirebaseData.getTVSeriesList()){
-                if (aux.getTitle().equals(trendingSlides.get(trending.getCurrentItem()).getTitle())) {
-                    intent = new Intent(MainActivity.this, TVSeriesActivity.class);
-                    intent.putExtra("TV Series", trendingSlides.get(trending.getCurrentItem()).getTitle());
-                }
-            }
-        }
-
-        return intent;
     }
 
     private void loadCategories(){
