@@ -11,6 +11,7 @@ public class Film extends Episode implements Comparable<Film>{
     private LocalDate releaseDate;
     private float score;
     private List<String> mainCast; //first genre is main genre
+    private int suggestionScore;
 
     public Film(String title, String summary, String playLink, String duration,
                 List<String> mainCast, String wallpaperUrl, String posterUrl,
@@ -23,6 +24,7 @@ public class Film extends Episode implements Comparable<Film>{
         this.score = score;
         if (genres == null) this.genres = new ArrayList<>(); else this.genres = genres;
         if (mainCast == null) this.mainCast = new ArrayList<>(); else this.mainCast = mainCast;
+        this.suggestionScore = 0;
     }
 
     public String getWallpaperUrl() {
@@ -79,6 +81,14 @@ public class Film extends Episode implements Comparable<Film>{
 
     public void setMainCast(List<String> mainCast) {
         this.mainCast = mainCast;
+    }
+
+    public int getSuggestionScore() {
+        return suggestionScore;
+    }
+
+    public void setSuggestionScore(int suggestionScore) {
+        this.suggestionScore = suggestionScore;
     }
 
     @Override

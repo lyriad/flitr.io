@@ -137,7 +137,6 @@ public final class FirebaseData {
                                 document.get("Language").toString(),
                                 document.get("Title Card").toString(),
                                 document.get("Wallpaper").toString(),
-                                Integer.parseInt(document.get("Running Time").toString()),
                                 Float.parseFloat(document.get("Score").toString()),
                                 document.get("Summary").toString(),
                                 seasons)

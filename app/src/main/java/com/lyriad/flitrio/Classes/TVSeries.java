@@ -6,12 +6,11 @@ import java.util.ArrayList;
 public class TVSeries implements Comparable<TVSeries>{
 
     private String title, genre, countryOfOrigin, language, titleCard, wallpaperUrl, summary;
-    private int runningTime; //average in minutes
     private float score;
     private List<Season> seasons;
 
     public TVSeries(String title, String genre, String countryOfOrigin, String language,
-                    String titleCard, String wallpaperUrl, int runningTime, float score,
+                    String titleCard, String wallpaperUrl, float score,
                     String summary, List<Season> seasons) {
         this.title = title;
         this.genre = genre;
@@ -19,7 +18,6 @@ public class TVSeries implements Comparable<TVSeries>{
         this.language = language;
         this.titleCard = titleCard;
         this.wallpaperUrl = wallpaperUrl;
-        this.runningTime = runningTime;
         this.score = score;
         this.summary = summary;
         if (seasons == null) this.seasons = new ArrayList<>(); else this.seasons = seasons;
@@ -71,14 +69,6 @@ public class TVSeries implements Comparable<TVSeries>{
 
     public void setWallpaperUrl(String wallpaperUrl) {
         this.wallpaperUrl = wallpaperUrl;
-    }
-
-    public int getRunningTime() {
-        return runningTime;
-    }
-
-    public void setRunningTime(int runningTime) {
-        this.runningTime = runningTime;
     }
 
     public float getScore() {

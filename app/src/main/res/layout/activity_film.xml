@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimaryDark"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -192,12 +193,21 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginEnd="8dp"/>
 
-            <ImageView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:background="@color/colorPrimaryDark"
+                android:text="More like this"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/film_suggestions"
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:rotation="180"
-                android:layout_marginBottom="16dp"
-                app:srcCompat="@drawable/gradient_background"/>
+                android:layout_height="384dp"/>
 
         </LinearLayout>
     </ScrollView>

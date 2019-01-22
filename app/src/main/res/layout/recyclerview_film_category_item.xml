@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-    android:layout_marginBottom="8dp">
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/film_category_text"
@@ -21,6 +20,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/film_category_list"
         android:layout_width="match_parent"
-        android:layout_height="184dp"/>
+        android:layout_height="192dp"/>
 
 </LinearLayout>

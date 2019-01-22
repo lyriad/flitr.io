@@ -48,9 +48,12 @@
             android:name=".Activities.TVSeriesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.FilmActivity"
+        <activity
+            android:name=".Activities.FilmActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.SearchActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

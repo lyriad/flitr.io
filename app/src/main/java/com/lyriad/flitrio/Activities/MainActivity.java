@@ -1,16 +1,17 @@
 package com.lyriad.flitrio.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -38,10 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List<FilmCategoryModel> categories = new ArrayList<>();
 
     ViewPager trending;
-    ImageView searchButton, addButton, infoButton;
+    ImageView addButton, infoButton, searchButton, homeButton;
     Button playButton;
     CircularImageView profileImage;
     RecyclerView filmCategories;
+    NestedScrollView mainScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,24 +55,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fireAuthentication = FirebaseAuth.getInstance();
         currentUser = fireAuthentication.getCurrentUser();
 
+        mainScrollView = findViewById(R.id.main_scroll_layout);
         trending = findViewById(R.id.main_trending_slider);
         profileImage = findViewById(R.id.main_profile_picture);
         searchButton = findViewById(R.id.main_search_button);
+        homeButton = findViewById(R.id.main_home);
         addButton = findViewById(R.id.trending_add_to_list);
         playButton = findViewById(R.id.trending_play);
         infoButton = findViewById(R.id.trending_open);
         filmCategories = findViewById(R.id.main_film_categories);
 
         profileImage.setOnClickListener(this);
-        searchButton.setOnClickListener(this);
         addButton.setOnClickListener(this);
         playButton.setOnClickListener(this);
         infoButton.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
 
         SliderPageAdapter trendingAdapter = new SliderPageAdapter(this, trendingSlides);
         RecyclerViewFilmCategoriesAdapter categoriesAdapter = new RecyclerViewFilmCategoriesAdapter(
                 categories, this);
-
         trending.setAdapter(trendingAdapter);
         filmCategories.setAdapter(categoriesAdapter);
         filmCategories.setLayoutManager(new LinearLayoutManager(this));
@@ -91,11 +95,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.main_search_button:
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                break;
             case R.id.main_profile_picture:
                 startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
-                break;
-            case R.id.main_search_button:
-                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.trending_add_to_list:
                 Toast.makeText(this, "Added to list", Toast.LENGTH_SHORT).show();
@@ -113,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
                 startActivity(intent);
+                break;
+            case R.id.main_home:
                 break;
         }
     }

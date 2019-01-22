@@ -30,7 +30,7 @@ public class RecyclerViewEpisodeAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.episodeTitle.setText(adapterEpisodes.get(position).getTitle());
-        holder.episodeDuration.setText(String.valueOf(adapterEpisodes.get(position).getDuration()) + " m");
+        holder.episodeDuration.setText(adapterEpisodes.get(position).getDuration());
     }
 
     @Override
