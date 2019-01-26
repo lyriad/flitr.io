@@ -1,11 +1,13 @@
 package com.lyriad.flitrio.Classes;
 
+import java.time.LocalDate;
+
 public class Person {
 
     private String givenName;
     private String middleName;
     private String lastName;
-    private String birthDate;
+    private LocalDate birthDate;
     private String countryOfOrigin;
     private String gender;
     private String personImage;
@@ -14,7 +16,7 @@ public class Person {
         super();
     }
 
-    public Person(String givenName, String middleName, String lastName, String birthDate,
+    public Person(String givenName, String middleName, String lastName, LocalDate birthDate,
                   String countryOfOrigin, String gender, String personImage){
         super();
         this.givenName = givenName;
@@ -50,11 +52,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

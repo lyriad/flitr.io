@@ -1,5 +1,7 @@
 package com.lyriad.flitrio.Classes;
 
+import java.time.LocalDate;
+
 public class User extends Person {
 
     private String username;
@@ -10,7 +12,7 @@ public class User extends Person {
         super();
     }
 
-    public User(String givenName, String middleName, String lastName, String birthDate,
+    public User(String givenName, String middleName, String lastName, LocalDate birthDate,
                 String countryOfOrigin, String gender, String username, String email,
                 String subscription){
 

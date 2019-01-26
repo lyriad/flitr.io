@@ -15,10 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.lyriad.flitrio.Adapters.RecyclerViewFilmCategoryAdapter;
 import com.lyriad.flitrio.Classes.Film;
 import com.lyriad.flitrio.Classes.FirebaseData;
 import com.lyriad.flitrio.R;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,8 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
     private Intent intent;
 
     TextView title, releaseDate, genre, description, duration;
-    ImageView backButton, wallpaper;
+    ImageView backButton, wallpaper, searchButton, homeButton;
+    CircularImageView profileImage;
     LinearLayout rateLayout, addToListLayout;
     RecyclerView suggestions;
 
@@ -40,9 +44,14 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         intent = getIntent();
         getFilm();
         getSuggestions();
+
+        profileImage = findViewById(R.id.film_profile_picture);
+        searchButton = findViewById(R.id.film_search_button);
+        homeButton = findViewById(R.id.film_home);
 
         backButton = findViewById(R.id.film_back);
         wallpaper = findViewById(R.id.film_wallpaper);
@@ -55,6 +64,9 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
         description = findViewById(R.id.film_description);
         suggestions = findViewById(R.id.film_suggestions);
 
+        profileImage.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
         addToListLayout.setOnClickListener(this);
         rateLayout.setOnClickListener(this);
@@ -77,6 +89,7 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
         releaseDate.setText(date);
         duration.setText(myFilm.getDuration());
         description.setText(myFilm.getSummary());
+        Glide.with(this).load(currentUser.getPhotoUrl()).into(profileImage);
     }
 
     @Override
@@ -90,6 +103,20 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.film_rate:
                 Toast.makeText(this, "Rate", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.film_search_button:
+                startActivity(new Intent(FilmActivity.this, SearchActivity.class));
+                break;
+            case R.id.film_profile_picture:
+                startActivity(new Intent(FilmActivity.this, UserProfileActivity.class));
+                break;
+            case R.id.film_home:
+                Intent intent = new Intent(FilmActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
                 break;
         }
     }

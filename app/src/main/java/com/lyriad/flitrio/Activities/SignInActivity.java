@@ -3,7 +3,10 @@ package com.lyriad.flitrio.Activities;
 import android.content.Intent;
 import com.google.android.material.textfield.TextInputEditText;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.text.TextUtils;
@@ -25,6 +28,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.lyriad.flitrio.Classes.FirebaseData;
 import com.lyriad.flitrio.Classes.StaticData;
 import com.lyriad.flitrio.R;
+
+import java.time.LocalDate;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -62,6 +67,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     public void onStart() {
         super.onStart();
         if (fireAuthentication.getCurrentUser() != null){
+            buttonSignIn.setVisibility(View.INVISIBLE);
+            progress.setVisibility(View.VISIBLE);
             loadUserData();
         }
     }
@@ -159,6 +166,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void loadUserData(){
         fireDatabase.document(StaticData.getUserCollection() + "/" + fireAuthentication.getCurrentUser().getEmail()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
@@ -166,12 +174,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     FirebaseData.getCurrentUser().setGivenName(doc.get("Given Name").toString());
                     FirebaseData.getCurrentUser().setMiddleName(doc.get("Middle Name").toString());
                     FirebaseData.getCurrentUser().setLastName(doc.get("Last Name").toString());
-                    FirebaseData.getCurrentUser().setBirthDate(doc.get("Birthdate").toString());
+                    FirebaseData.getCurrentUser().setBirthDate(LocalDate.parse(doc.get("Birthdate").toString(), StaticData.getDateFormat()));
                     FirebaseData.getCurrentUser().setCountryOfOrigin(doc.get("Country of Origin").toString());
                     FirebaseData.getCurrentUser().setGender(doc.get("Gender").toString());
                     FirebaseData.getCurrentUser().setUsername(doc.get("Username").toString());
                     FirebaseData.getCurrentUser().setSubscription(doc.get("Subscription").toString());
-
                     startActivity(new Intent(SignInActivity.this,
                             MainActivity.class));
                     finish();

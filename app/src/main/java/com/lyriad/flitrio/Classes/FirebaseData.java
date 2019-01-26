@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,6 +130,7 @@ public final class FirebaseData {
                             }
                             seasons.add(new Season(seasonTitle, seasonStartDate, seasonEndDate, seasonImage, episodes));
                         }
+                        Collections.sort(seasons);
 
                         TVSeriesList.add(new TVSeries(
                                 document.get("Title").toString(),

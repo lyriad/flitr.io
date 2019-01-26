@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List<FilmCategoryModel> categories = new ArrayList<>();
 
     ViewPager trending;
-    ImageView addButton, infoButton, searchButton, homeButton;
+    ImageView addButton, infoButton, searchButton;
     Button playButton;
     CircularImageView profileImage;
     RecyclerView filmCategories;
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         trending = findViewById(R.id.main_trending_slider);
         profileImage = findViewById(R.id.main_profile_picture);
         searchButton = findViewById(R.id.main_search_button);
-        homeButton = findViewById(R.id.main_home);
         addButton = findViewById(R.id.trending_add_to_list);
         playButton = findViewById(R.id.trending_play);
         infoButton = findViewById(R.id.trending_open);
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         playButton.setOnClickListener(this);
         infoButton.setOnClickListener(this);
         searchButton.setOnClickListener(this);
-        homeButton.setOnClickListener(this);
 
         SliderPageAdapter trendingAdapter = new SliderPageAdapter(this, trendingSlides);
         RecyclerViewFilmCategoriesAdapter categoriesAdapter = new RecyclerViewFilmCategoriesAdapter(
@@ -117,8 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
                 startActivity(intent);
-                break;
-            case R.id.main_home:
                 break;
         }
     }

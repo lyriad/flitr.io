@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Season {
+public class Season implements Comparable<Season>{
 
     private String title, seasonImage;
     private LocalDate startDate, endDate;
@@ -63,4 +63,8 @@ public class Season {
         this.episodes = episodes;
     }
 
+    @Override
+    public int compareTo(Season o) {
+        return title.compareTo(o.getTitle());
+    }
 }

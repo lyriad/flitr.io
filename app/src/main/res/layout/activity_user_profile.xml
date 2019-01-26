@@ -8,107 +8,186 @@
     tools:context=".Activities.UserProfileActivity"
     android:background="@color/colorPrimary">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/user_profile_toolbar"
+    <LinearLayout
+        android:id="@+id/user_profile_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
-
-        <LinearLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp">
-
-            <ImageView
-                android:id="@+id/user_profile_back_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:srcCompat="@drawable/ic_arrow_back_white_24dp"
-                android:layout_marginRight="315dp"
-                android:layout_marginEnd="315dp"/>
-
-            <ImageView
-                android:id="@+id/user_profile_settings"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:srcCompat="@drawable/ic_settings_white_24dp"/>
-
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/user_profile_toolbar"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:weightSum="6"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:id="@+id/user_profile_back_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="12dp"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/user_profile_picture"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@mipmap/empty_profile_picture"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/colorPrimaryDark"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/user_profile_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Username"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/user_profile_names"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="First and Last Name"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp">
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/user_profile_picture"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    app:srcCompat="@mipmap/empty_profile_picture"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="@color/colorPrimaryDark"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp">
-                        <TextView
-                            android:id="@+id/user_profile_username"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Username"
-                            android:textColor="@color/white"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/user_profile_names"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="First and Last Name"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            />
-                    </LinearLayout>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/user_profile_sign_out"
+            <TextView
+                android:id="@+id/user_profile_birthdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign out"
-                android:layout_gravity="center"
-                android:textColor="@color/red"
-                android:paddingVertical="16dp"
-                android:paddingHorizontal="24dp"/>
+                android:text="20 Mar 1998"
+                android:textColor="@color/white"
+                android:textSize="13sp"/>
 
+            <TextView
+                android:id="@+id/user_profile_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Dominican Republic"
+                android:textColor="@color/white"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/user_profile_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="test.email@domain.com"
+                android:textColor="@color/white"
+                android:textSize="13sp"/>
+            <TextView
+                android:id="@+id/user_profile_subscription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Basic plan"
+                android:textColor="@color/white"
+                android:textSize="13sp"/>
         </LinearLayout>
-    </ScrollView>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="6"/>
+
+        <Button
+            android:id="@+id/user_profile_change_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:text="Change password"/>
+
+        <Button
+            android:id="@+id/user_profile_sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign out"
+            android:layout_gravity="center"
+            android:textColor="@color/red"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_profile_layout">
+
+        <LinearLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="48dp"
+                android:layout_height="0dp" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/user_profile_picture_toolbar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@mipmap/empty_profile_picture"
+                app:civ_border_color="@color/colorPrimaryDark"
+                app:civ_border_width="2dp"/>
+
+            <Space
+                android:layout_width="96dp"
+                android:layout_height="0dp" />
+
+            <ImageView
+                android:id="@+id/user_profile_home"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/ic_home_white_24dp"/>
+
+            <Space
+                android:layout_width="96dp"
+                android:layout_height="0dp" />
+
+            <ImageView
+                android:id="@+id/user_profile_search_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/ic_search_white_24dp" />
+
+            <Space
+                android:layout_width="48dp"
+                android:layout_height="0dp" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

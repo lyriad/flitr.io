@@ -24,7 +24,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     ListView searchResults;
     ListViewSearchAdapter adapter;
-    ImageView searchButton, homeButton;
+    ImageView homeButton;
     CircularImageView profileImage;
 
     @Override
@@ -35,13 +35,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         searchResults = findViewById(R.id.search_results);
         profileImage = findViewById(R.id.search_profile_picture);
-        searchButton = findViewById(R.id.search_button);
         homeButton = findViewById(R.id.search_home);
 
         Glide.with(this).load(currentUser.getPhotoUrl()).into(profileImage);
 
         profileImage.setOnClickListener(this);
-        searchButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
     }
 
@@ -78,12 +76,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.search_button:
-                break;
             case R.id.search_profile_picture:
                 startActivity(new Intent(SearchActivity.this, UserProfileActivity.class));
                 break;
             case R.id.search_home:
+                Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 finish();
                 break;
         }
