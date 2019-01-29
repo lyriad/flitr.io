@@ -9,6 +9,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -41,6 +42,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private FirebaseFirestore fireDatabase;
     private FirebaseAuth fireAuthentication;
-    private StorageReference storageRef;
+    private StorageReference fireStorage;
     private Uri imageUri;
 
     EditText dateText;
@@ -71,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         fireDatabase = FirebaseFirestore.getInstance();
         fireAuthentication = FirebaseAuth.getInstance();
-        storageRef = FirebaseStorage.getInstance().getReference();
+        fireStorage = FirebaseStorage.getInstance().getReference();
         imageUri = null;
 
         backButton = findViewById(R.id.sign_up_back_button);
@@ -186,7 +188,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 if (task.isSuccessful()){
                     if (imageUri != null){
                         String ext = imageUri.toString().substring(imageUri.toString().lastIndexOf('.'));
-                        StorageReference filePath = storageRef
+                        StorageReference filePath = fireStorage
                                 .child(StaticData.getProfilePictureFolder())
                                 .child(textUsername.getText().toString() + ext);
 
@@ -251,6 +253,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             newUser.put("Gender", gender);
             newUser.put("Username", textUsername.getText().toString().trim());
             newUser.put("Subscription", subscriptionSpinner.getSelectedItem().toString());
+            newUser.put("List", Collections.emptyList());
         }catch (NullPointerException e){
             e.printStackTrace();
         }

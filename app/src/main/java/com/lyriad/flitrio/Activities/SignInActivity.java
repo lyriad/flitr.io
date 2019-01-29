@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,11 +31,13 @@ import com.lyriad.flitrio.Classes.StaticData;
 import com.lyriad.flitrio.R;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseFirestore fireDatabase;
     private FirebaseAuth fireAuthentication;
+    private FirebaseUser currentUser;
 
     InputMethodManager keyboard;
     TextInputEditText textUsernameEmail, textPassword;
@@ -47,6 +50,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         fireDatabase = FirebaseFirestore.getInstance();
         fireAuthentication = FirebaseAuth.getInstance();
+        currentUser = fireAuthentication.getCurrentUser();
         FirebaseData.loadMedia(fireDatabase);
         StaticData.loadGenres();
         keyboard = (InputMethodManager) getSystemService(SignInActivity.this.
@@ -66,7 +70,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        if (fireAuthentication.getCurrentUser() != null){
+        if (currentUser != null){
+            textUsernameEmail.setText(currentUser.getEmail());
+            textPassword.setText(currentUser.getUid());
             buttonSignIn.setVisibility(View.INVISIBLE);
             progress.setVisibility(View.VISIBLE);
             loadUserData();
@@ -179,6 +185,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     FirebaseData.getCurrentUser().setGender(doc.get("Gender").toString());
                     FirebaseData.getCurrentUser().setUsername(doc.get("Username").toString());
                     FirebaseData.getCurrentUser().setSubscription(doc.get("Subscription").toString());
+                    FirebaseData.getCurrentUser().setList((ArrayList<String>) doc.get("List"));
                     startActivity(new Intent(SignInActivity.this,
                             MainActivity.class));
                     finish();

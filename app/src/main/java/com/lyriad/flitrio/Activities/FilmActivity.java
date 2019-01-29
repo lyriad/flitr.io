@@ -1,5 +1,6 @@
 package com.lyriad.flitrio.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,15 +12,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.lyriad.flitrio.Adapters.RecyclerViewFilmCategoryAdapter;
 import com.lyriad.flitrio.Classes.Film;
 import com.lyriad.flitrio.Classes.FirebaseData;
+import com.lyriad.flitrio.Classes.StaticData;
 import com.lyriad.flitrio.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -28,6 +34,8 @@ import java.util.List;
 
 public class FilmActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private FirebaseFirestore fireDatabase;
+    private FirebaseUser currentUser;
     private Film myFilm;
     private List<Film> suggestionsList = new ArrayList<>();
     private Intent intent;
@@ -35,7 +43,8 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
     TextView title, releaseDate, genre, description, duration;
     ImageView backButton, wallpaper, searchButton, homeButton;
     CircularImageView profileImage;
-    LinearLayout rateLayout, addToListLayout;
+    LinearLayout rateLayout;
+    RelativeLayout modifyListLayout, addToListLayout, removeFromListLayout;
     RecyclerView suggestions;
 
 
@@ -44,7 +53,8 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        fireDatabase = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         intent = getIntent();
         getFilm();
         getSuggestions();
@@ -59,7 +69,9 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
         releaseDate = findViewById(R.id.film_release_year);
         genre = findViewById(R.id.film_genre);
         duration = findViewById(R.id.film_duration);
+        modifyListLayout = findViewById(R.id.film_modify_list);
         addToListLayout = findViewById(R.id.film_add_to_list);
+        removeFromListLayout = findViewById(R.id.film_remove_from_list);
         rateLayout = findViewById(R.id.film_rate);
         description = findViewById(R.id.film_description);
         suggestions = findViewById(R.id.film_suggestions);
@@ -68,11 +80,8 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
         searchButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
-        addToListLayout.setOnClickListener(this);
+        modifyListLayout.setOnClickListener(this);
         rateLayout.setOnClickListener(this);
-
-        suggestions.setAdapter(new RecyclerViewFilmCategoryAdapter(suggestionsList, this));
-        suggestions.setLayoutManager(new GridLayoutManager(this, 3));
 
         String date = String.valueOf(myFilm.getReleaseDate().getDayOfMonth()) +
                 " " + myFilm.getReleaseDate().getMonth().toString().charAt(0) +
@@ -89,6 +98,18 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
         releaseDate.setText(date);
         duration.setText(myFilm.getDuration());
         description.setText(myFilm.getSummary());
+
+        if (FirebaseData.getCurrentUser().getList().contains(myFilm.getTitle())){
+            addToListLayout.setVisibility(View.INVISIBLE);
+            removeFromListLayout.setVisibility(View.VISIBLE);
+        }else{
+            addToListLayout.setVisibility(View.VISIBLE);
+            removeFromListLayout.setVisibility(View.INVISIBLE);
+        }
+
+        suggestions.setAdapter(new RecyclerViewFilmCategoryAdapter(suggestionsList, this));
+        suggestions.setLayoutManager(new GridLayoutManager(this, 3));
+
         Glide.with(this).load(currentUser.getPhotoUrl()).into(profileImage);
     }
 
@@ -98,8 +119,12 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.film_back:
                 finish();
                 break;
-            case R.id.film_add_to_list:
-                Toast.makeText(this, "Added to list", Toast.LENGTH_SHORT).show();
+            case R.id.film_modify_list:
+                if (FirebaseData.getCurrentUser().getList().contains(myFilm.getTitle())){
+                    removeFilmFromList();
+                }else{
+                    saveFilmToList();
+                }
                 break;
             case R.id.film_rate:
                 Toast.makeText(this, "Rate", Toast.LENGTH_SHORT).show();
@@ -160,5 +185,37 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+    }
+
+    private void saveFilmToList(){
+
+        FirebaseData.getCurrentUser().getList().add(myFilm.getTitle());
+
+        fireDatabase.collection(StaticData.getUserCollection()).document(currentUser.getEmail()).
+                update("List", FirebaseData.getCurrentUser().getList()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(getApplicationContext(), "Added to list", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        addToListLayout.setVisibility(View.INVISIBLE);
+        removeFromListLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void removeFilmFromList(){
+
+        FirebaseData.getCurrentUser().getList().remove(myFilm.getTitle());
+
+        fireDatabase.collection(StaticData.getUserCollection()).document(currentUser.getEmail()).
+                update("List", FirebaseData.getCurrentUser().getList()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(getApplicationContext(), "Removed from list", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        addToListLayout.setVisibility(View.VISIBLE);
+        removeFromListLayout.setVisibility(View.INVISIBLE);
     }
 }

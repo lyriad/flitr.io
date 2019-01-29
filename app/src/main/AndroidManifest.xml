@@ -52,8 +52,12 @@
             android:name=".Activities.FilmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.SearchActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activities.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.PopUpActivities.ChangePasswordPopUp"
+            android:theme="@style/AppTheme.PopUpTheme"/>
     </application>
 
 </manifest>

@@ -107,12 +107,41 @@
                 android:text="Basic plan"
                 android:textColor="@color/white"
                 android:textSize="13sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/white"
+                android:text="My List"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="192dp"
+                android:layout_marginTop="4dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/user_profile_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/user_profile_empty_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="You list is empty"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+            </RelativeLayout>
         </LinearLayout>
 
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="6"/>
+            android:layout_weight="2"/>
 
         <Button
             android:id="@+id/user_profile_change_password"
