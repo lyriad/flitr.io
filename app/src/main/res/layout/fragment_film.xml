@@ -6,14 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.TVSeriesActivity"
-    android:background="@color/colorPrimary">
+    android:background="@color/backgroundPrimary">
 
     <ScrollView
         android:id="@+id/film_scroll_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
@@ -203,7 +202,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/red"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/backgroundPrimaryDark"
                 android:text="More like this"
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="center"
@@ -218,59 +217,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/film_scroll_layout">
-
-        <LinearLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Space
-                android:layout_width="48dp"
-                android:layout_height="0dp" />
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/film_profile_picture"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:srcCompat="@mipmap/empty_profile_picture"
-                app:civ_border_color="@color/colorPrimaryDark"
-                app:civ_border_width="2dp"/>
-
-            <Space
-                android:layout_width="96dp"
-                android:layout_height="0dp" />
-
-            <ImageView
-                android:id="@+id/film_home"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:srcCompat="@drawable/ic_home_white_24dp"/>
-
-            <Space
-                android:layout_width="96dp"
-                android:layout_height="0dp" />
-
-            <ImageView
-                android:id="@+id/film_search_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:srcCompat="@drawable/ic_search_white_24dp" />
-
-            <Space
-                android:layout_width="48dp"
-                android:layout_height="0dp" />
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
 </androidx.constraintlayout.widget.ConstraintLayout>

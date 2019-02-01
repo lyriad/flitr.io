@@ -1,20 +1,22 @@
 package com.lyriad.flitrio.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.lyriad.flitrio.Activities.FilmActivity;
+import com.lyriad.flitrio.Activities.MainActivity;
 import com.lyriad.flitrio.Classes.Film;
+import com.lyriad.flitrio.Fragments.FilmFragment;
 import com.lyriad.flitrio.R;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewFilmCategoryAdapter extends RecyclerView.Adapter<RecyclerViewFilmCategoryAdapter.CategoryViewHolder>{
@@ -40,9 +42,13 @@ public class RecyclerViewFilmCategoryAdapter extends RecyclerView.Adapter<Recycl
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, FilmActivity.class);
-                intent.putExtra("Film", adapterFilms.get(position).getTitle());
-                context.startActivity(intent);
+                MainActivity parentActivity = (MainActivity) context;
+                Bundle args = new Bundle();
+                args.putString("Film", adapterFilms.get(position).getTitle());
+                Fragment filmFragment = new FilmFragment();
+                filmFragment.setArguments(args);
+                parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container,
+                        filmFragment).addToBackStack(null).commit();
             }
         });
     }

@@ -6,7 +6,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/backgroundPrimary"
     tools:context=".Activities.SignUpActivity"
     tools:layout_editor_absoluteY="25dp"
     android:orientation="vertical">
@@ -17,7 +17,10 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimaryDark"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <ImageView
             android:id="@+id/sign_up_back_button"
@@ -41,8 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_toolbar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_toolbar" />
 
     <ScrollView
         android:id="@+id/sign_up_scroll_view"
@@ -63,7 +65,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_gravity="center"
                 app:civ_border_width="2dp"
-                app:civ_border_color="@color/colorPrimaryDark"
+                app:civ_border_color="@color/backgroundPrimaryDark"
                 app:srcCompat="@mipmap/empty_profile_picture"
                 />
 
@@ -238,7 +240,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="24dp"
-                android:backgroundTint="@color/colorPrimaryDark" />
+                android:backgroundTint="@color/backgroundPrimaryDark" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -253,7 +255,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/colorPrimaryDark" />
+                    android:backgroundTint="@color/backgroundPrimaryDark" />
 
                 <ImageView
                     android:id="@+id/sign_up_subscription_help"

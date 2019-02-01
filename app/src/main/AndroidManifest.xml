@@ -26,10 +26,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Activities.SignUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -41,23 +37,15 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name=".Activities.UserProfileActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Activities.TVSeriesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activities.FilmActivity"
+        <activity android:name=".Activities.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activities.SearchActivity"
-            android:screenOrientation="portrait" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Activities.PopUpActivities.ChangePasswordPopUp"
-            android:theme="@style/AppTheme.PopUpTheme"/>
+            android:theme="@style/AppTheme.PopUpTheme" />
     </application>
 
 </manifest>

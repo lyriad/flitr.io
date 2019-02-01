@@ -1,22 +1,24 @@
-package com.lyriad.flitrio.Activities;
+package com.lyriad.flitrio.Fragments;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.lyriad.flitrio.Adapters.RecyclerViewEpisodeAdapter;
 import com.lyriad.flitrio.Adapters.RecyclerViewSeasonAdapter;
 import com.lyriad.flitrio.Classes.FirebaseData;
@@ -27,11 +29,10 @@ import com.lyriad.flitrio.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TVSeriesActivity extends AppCompatActivity implements View.OnClickListener{
+public class TVSeriesFragment extends Fragment implements View.OnClickListener {
 
     private TVSeries tvShow;
     private List<Season> seasons = new ArrayList<>();
-    private Intent intent;
 
     TextView title, releaseYear, genre, seasonCount, description;
     ImageView backButton, wallpaper;
@@ -39,41 +40,46 @@ public class TVSeriesActivity extends AppCompatActivity implements View.OnClickL
     RecyclerViewSeasonAdapter seasonAdapter;
     LinearLayout rateLayout, addToListLayout;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_tvseries);
-        intent = getIntent();
-        loadSeasons();
+        loadTVShow();
+    }
 
-        seasonRecyclerView = findViewById(R.id.tv_series_seasons);
-        episodeRecyclerView = findViewById(R.id.tv_series_episodes);
-        backButton = findViewById(R.id.tv_series_back);
-        wallpaper = findViewById(R.id.tv_series_wallpaper);
-        title = findViewById(R.id.tv_series_title);
-        releaseYear = findViewById(R.id.tv_series_release_year);
-        genre = findViewById(R.id.tv_series_genre);
-        seasonCount = findViewById(R.id.tv_series_season_count);
-        addToListLayout = findViewById(R.id.tv_series_add_to_list);
-        rateLayout = findViewById(R.id.tv_series_rate);
-        description = findViewById(R.id.tv_series_description);
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_tvseries, container, false);
+
+        seasonRecyclerView = view.findViewById(R.id.tv_series_seasons);
+        episodeRecyclerView = view.findViewById(R.id.tv_series_episodes);
+        backButton = view.findViewById(R.id.tv_series_back);
+        wallpaper = view.findViewById(R.id.tv_series_wallpaper);
+        title = view.findViewById(R.id.tv_series_title);
+        releaseYear = view.findViewById(R.id.tv_series_release_year);
+        genre = view.findViewById(R.id.tv_series_genre);
+        seasonCount = view.findViewById(R.id.tv_series_season_count);
+        addToListLayout = view.findViewById(R.id.tv_series_add_to_list);
+        rateLayout = view.findViewById(R.id.tv_series_rate);
+        description = view.findViewById(R.id.tv_series_description);
 
         backButton.setOnClickListener(this);
         addToListLayout.setOnClickListener(this);
         rateLayout.setOnClickListener(this);
 
         episodeRecyclerView.setAdapter(new RecyclerViewEpisodeAdapter(seasons.get(0).getEpisodes()));
-        episodeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        episodeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        seasonAdapter = new RecyclerViewSeasonAdapter(seasons, this);
+        seasonAdapter = new RecyclerViewSeasonAdapter(seasons, getActivity());
         seasonAdapter.setOnItemClickListener(new RecyclerViewSeasonAdapter.OnItemClickListener() {
             public void onItemClick(int position) {
                 episodeRecyclerView.swapAdapter(new RecyclerViewEpisodeAdapter(seasons.get(position).getEpisodes()), true);
             }
         });
         seasonRecyclerView.setAdapter(seasonAdapter);
-        seasonRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        seasonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         Glide.with(this).load(tvShow.getWallpaperUrl()).into(wallpaper);
         title.setText(tvShow.getTitle());
@@ -81,27 +87,28 @@ public class TVSeriesActivity extends AppCompatActivity implements View.OnClickL
         genre.setText(tvShow.getGenre());
         seasonCount.setText(String.valueOf(tvShow.getSeasons().size()) + " Seasons");
         description.setText(tvShow.getSummary());
+        return view;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_series_back:
-                finish();
+                getActivity().onBackPressed();
                 break;
             case R.id.tv_series_add_to_list:
-                Toast.makeText(this, "Added to list", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Added to list", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_series_rate:
-                Toast.makeText(this, "Rate", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Rate", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
-    private void loadSeasons(){
+    private void loadTVShow(){
 
         for (TVSeries aux : FirebaseData.getTVSeriesList()){
-            if (aux.getTitle().equals(intent.getStringExtra("TV Series"))){
+            if (aux.getTitle().equals(getArguments().get("TV Series"))){
                 tvShow = aux;
                 break;
             }

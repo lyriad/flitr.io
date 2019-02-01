@@ -1,32 +1,35 @@
 package com.lyriad.flitrio.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.lyriad.flitrio.Activities.FilmActivity;
+import com.lyriad.flitrio.Activities.MainActivity;
 import com.lyriad.flitrio.Classes.Film;
+import com.lyriad.flitrio.Fragments.FilmFragment;
 import com.lyriad.flitrio.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.fragment.app.Fragment;
+
 public class ListViewSearchAdapter extends BaseAdapter {
 
-    private Context myContext;
+    private Context context;
     private LayoutInflater inflater;
     private List<Film> filmResults;
     private ArrayList<Film> filmTitles;
 
-    public ListViewSearchAdapter(Context myContext, List<Film> filmResults) {
-        this.myContext = myContext;
+    public ListViewSearchAdapter(Context context, List<Film> filmResults) {
+        this.context = context;
         this.filmResults = filmResults;
-        inflater = LayoutInflater.from(myContext);
+        inflater = LayoutInflater.from(context);
         filmTitles = new ArrayList<>();
         filmTitles.addAll(filmResults);
     }
@@ -65,9 +68,13 @@ public class ListViewSearchAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(myContext, FilmActivity.class);
-                intent.putExtra("Film", filmResults.get(position).getTitle());
-                myContext.startActivity(intent);
+                MainActivity parentActivity = (MainActivity) context;
+                Bundle args = new Bundle();
+                args.putString("Film", filmResults.get(position).getTitle());
+                Fragment filmFragment = new FilmFragment();
+                filmFragment.setArguments(args);
+                parentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container,
+                        filmFragment).addToBackStack(null).commit();
             }
         });
 
