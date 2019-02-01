@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,7 +43,7 @@ public class FilmFragment extends Fragment implements View.OnClickListener {
     private List<Film> suggestionsList = new ArrayList<>();
 
     private TextView title, releaseDate, genre, description, duration;
-    private ImageView backButton, wallpaper;
+    private ImageView backButton, wallpaper, playButton;
     private LinearLayout rateLayout;
     private RelativeLayout modifyListLayout, addToListLayout, removeFromListLayout;
     private RecyclerView suggestions;
@@ -63,6 +65,7 @@ public class FilmFragment extends Fragment implements View.OnClickListener {
 
         backButton = view.findViewById(R.id.film_back);
         wallpaper = view.findViewById(R.id.film_wallpaper);
+        playButton = view.findViewById(R.id.film_play);
         title = view.findViewById(R.id.film_title);
         releaseDate = view.findViewById(R.id.film_release_year);
         genre = view.findViewById(R.id.film_genre);
@@ -75,6 +78,7 @@ public class FilmFragment extends Fragment implements View.OnClickListener {
         suggestions = view.findViewById(R.id.film_suggestions);
 
         backButton.setOnClickListener(this);
+        playButton.setOnClickListener(this);
         modifyListLayout.setOnClickListener(this);
         rateLayout.setOnClickListener(this);
 
@@ -113,6 +117,12 @@ public class FilmFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case R.id.film_back:
                 getActivity().onBackPressed();
+                break;
+            case R.id.film_play:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(myFilm.getPlayLink()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.google.android.youtube");
+                startActivity(intent);
                 break;
             case R.id.film_modify_list:
                 if (FirebaseData.getCurrentUser().getList().contains(myFilm.getTitle())){

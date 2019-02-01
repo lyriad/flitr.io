@@ -65,34 +65,4 @@ public class SearchFragment extends Fragment {
 
         return view;
     }
-
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_view, menu);
-        MenuItem myActionMenuItem = menu.findItem(R.id.film_search);
-        SearchView search = (SearchView) myActionMenuItem.getActionView();
-        search.setIconifiedByDefault(false);
-
-        adapter = new ListViewSearchAdapter(getActivity(), FirebaseData.getFilmList());
-        searchResults.setAdapter(adapter);
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText)){
-                    adapter.filter("");
-                    searchResults.clearTextFilter();
-                }else{
-                    adapter.filter(newText);
-                }
-                return true;
-            }
-        });
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }*/
 }

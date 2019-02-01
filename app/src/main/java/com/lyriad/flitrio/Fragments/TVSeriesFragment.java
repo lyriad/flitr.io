@@ -7,16 +7,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.lyriad.flitrio.Adapters.RecyclerViewEpisodeAdapter;
@@ -38,7 +35,6 @@ public class TVSeriesFragment extends Fragment implements View.OnClickListener {
     ImageView backButton, wallpaper;
     RecyclerView seasonRecyclerView, episodeRecyclerView;
     RecyclerViewSeasonAdapter seasonAdapter;
-    LinearLayout rateLayout, addToListLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,21 +57,17 @@ public class TVSeriesFragment extends Fragment implements View.OnClickListener {
         releaseYear = view.findViewById(R.id.tv_series_release_year);
         genre = view.findViewById(R.id.tv_series_genre);
         seasonCount = view.findViewById(R.id.tv_series_season_count);
-        addToListLayout = view.findViewById(R.id.tv_series_add_to_list);
-        rateLayout = view.findViewById(R.id.tv_series_rate);
         description = view.findViewById(R.id.tv_series_description);
 
         backButton.setOnClickListener(this);
-        addToListLayout.setOnClickListener(this);
-        rateLayout.setOnClickListener(this);
 
-        episodeRecyclerView.setAdapter(new RecyclerViewEpisodeAdapter(seasons.get(0).getEpisodes()));
+        episodeRecyclerView.setAdapter(new RecyclerViewEpisodeAdapter(seasons.get(0).getEpisodes(), getActivity()));
         episodeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         seasonAdapter = new RecyclerViewSeasonAdapter(seasons, getActivity());
         seasonAdapter.setOnItemClickListener(new RecyclerViewSeasonAdapter.OnItemClickListener() {
             public void onItemClick(int position) {
-                episodeRecyclerView.swapAdapter(new RecyclerViewEpisodeAdapter(seasons.get(position).getEpisodes()), true);
+                episodeRecyclerView.swapAdapter(new RecyclerViewEpisodeAdapter(seasons.get(position).getEpisodes(), getActivity()), true);
             }
         });
         seasonRecyclerView.setAdapter(seasonAdapter);
@@ -95,12 +87,6 @@ public class TVSeriesFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case R.id.tv_series_back:
                 getActivity().onBackPressed();
-                break;
-            case R.id.tv_series_add_to_list:
-                Toast.makeText(getActivity(), "Added to list", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.tv_series_rate:
-                Toast.makeText(getActivity(), "Rate", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

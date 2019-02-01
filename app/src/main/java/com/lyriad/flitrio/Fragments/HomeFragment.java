@@ -1,6 +1,5 @@
 package com.lyriad.flitrio.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.lyriad.flitrio.Activities.TVSeriesActivity;
+
 import com.lyriad.flitrio.Adapters.Models.FilmCategoryModel;
 import com.lyriad.flitrio.Adapters.RecyclerViewFilmCategoriesAdapter;
 import com.lyriad.flitrio.Adapters.SliderPageAdapter;
@@ -92,7 +91,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     }
                 }
                 tvFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container,
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit)
+                        .replace(R.id.main_fragment_container,
                         tvFragment).addToBackStack(null).commit();
                 break;
         }

@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.lyriad.flitrio.Fragments.*;
+import com.lyriad.flitrio.Fragments.HomeFragment;
+import com.lyriad.flitrio.Fragments.ProfileFragment;
+import com.lyriad.flitrio.Fragments.SearchFragment;
 import com.lyriad.flitrio.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new SearchFragment();
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container,
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.enter, R.anim.exit)
+                    .replace(R.id.main_fragment_container,
                     selectedFragment).addToBackStack(null).commit();
 
             return true;
@@ -47,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         navBar.setOnNavigationItemSelectedListener(navListener);
         navBar.setSelectedItemId(R.id.nav_bar_home);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container,
-                new HomeFragment()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit)
+                .replace(R.id.main_fragment_container,
+                new HomeFragment()).commit();
     }
 }
